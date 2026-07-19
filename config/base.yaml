@@ -1,121 +1,112 @@
 project:
-  name: "cqf-algorithmic-trading"
-  version: "0.1.0"
-  environment: "paper"
+  name: cqf-algorithmic-trading
+  version: 0.1.0
+  environment: paper
   random_seed: 42
-
 safety:
   allow_live_trading: false
   require_paper_mode: true
   require_manual_order_confirmation: true
   kill_switch_enabled: true
-
 broker:
-  provider: "alpaca"
+  provider: alpaca
   paper: true
-  credentials_file: ".env"
-  stock_data_feed: "iex"
-
+  credentials_file: .env
+  stock_data_feed: iex
+  api_key_env: ALPACA_API_KEY
+  secret_key_env: ALPACA_SECRET_KEY
 market:
-  asset_class: "us_equities"
-  exchange_timezone: "America/New_York"
-  storage_timezone: "UTC"
+  asset_class: us_equities
+  exchange_timezone: America/New_York
+  storage_timezone: UTC
   regular_session_only: true
-  market_open: "09:30"
-  market_close: "16:00"
+  market_open: 09:30
+  market_close: '16:00'
   extended_hours: false
-
 instruments:
   trend_primary:
-    - "SPY"
-
+  - SPY
   trend_robustness:
-    - "QQQ"
-    - "IWM"
-
+  - QQQ
+  - IWM
   mean_reversion_candidates:
-    - ["V", "MA"]
-    - ["XOM", "CVX"]
-    - ["KO", "PEP"]
-    - ["HD", "LOW"]
-    - ["JPM", "BAC"]
-    - ["GS", "MS"]
-
+  - - V
+    - MA
+  - - XOM
+    - CVX
+  - - KO
+    - PEP
+  - - HD
+    - LOW
+  - - JPM
+    - BAC
+  - - GS
+    - MS
 data:
-  primary_provider: "alpaca"
-  external_crosscheck_provider: "yfinance"
+  primary_provider: alpaca
+  external_crosscheck_provider: yfinance
   raw_bar_minutes: 1
   primary_strategy_bar_minutes: 15
   robustness_bar_minutes:
-    - 30
-    - 60
-
+  - 30
+  - 60
   require_ohlcv_validation: true
   require_duplicate_check: true
   require_missing_bar_check: true
   require_timestamp_order_check: true
   require_external_crosscheck: true
-
+  raw_storage_dir: data/raw
+  processed_storage_dir: data/processed
+  metadata_storage_dir: data/metadata
+  storage_format: parquet
+  allow_raw_overwrite: false
 event_bars:
   enabled: true
-  primary_type: "dollar"
-  fallback_type: "volume"
+  primary_type: dollar
+  fallback_type: volume
   benchmark_time_bar_minutes: 15
   tick_bars_optional: true
-
 sample:
-  development_start: "2020-01-02"
-  development_end: "2025-12-31"
-
-  final_test_start: "2026-01-02"
-  final_test_end: "2026-06-30"
-
+  development_start: '2020-01-02'
+  development_end: '2025-12-31'
+  final_test_start: '2026-01-02'
+  final_test_end: '2026-06-30'
   walk_forward_train_months: 24
   walk_forward_test_months: 3
-
   final_test_locked: true
-
 strategy_design:
   trend_strategy_count: 2
   mean_reversion_strategy_count: 1
-
-  trend_baseline_positioning: "long_flat"
+  trend_baseline_positioning: long_flat
   trend_long_short_ablation: true
-
-  mean_reversion_core_method: "engle_granger_ecm_ou"
-  johansen_vecm_role: "validation_or_extension"
+  mean_reversion_core_method: engle_granger_ecm_ou
+  johansen_vecm_role: validation_or_extension
   final_pair_selected_after_testing: true
-
 execution:
-  default_order_type: "market"
-  default_time_in_force: "day"
+  default_order_type: market
+  default_time_in_force: day
   fractional_orders_allowed: true
   partial_fill_handling_required: true
   rejected_order_handling_required: true
   reconciliation_required: true
-
 risk:
   starting_capital_usd: 100000
   maximum_gross_exposure: 1.0
   maximum_single_instrument_weight: 1.0
   pair_target_net_exposure: 0.0
   leverage_allowed: false
-
 costs:
   commission_bps: 0.0
-
   slippage_scenarios_bps:
-    - 0.0
-    - 1.0
-    - 2.5
-    - 5.0
-
+  - 0.0
+  - 1.0
+  - 2.5
+  - 5.0
   borrow_cost_scenarios_annual_pct:
-    - 0.0
-    - 3.0
-    - 5.0
-    - 10.0
-
+  - 0.0
+  - 3.0
+  - 5.0
+  - 10.0
 validation:
   require_walk_forward: true
   require_out_of_sample_results: true
@@ -123,17 +114,14 @@ validation:
   require_parameter_sensitivity: true
   require_multiple_testing_awareness: true
   require_benchmark_comparison: true
-
 benchmarks:
   trend:
-    - "SPY_buy_and_hold"
-    - "volatility_matched_SPY"
-    - "cash"
-
+  - SPY_buy_and_hold
+  - volatility_matched_SPY
+  - cash
   mean_reversion:
-    - "cash"
-    - "zero_net_investment_baseline"
-
+  - cash
+  - zero_net_investment_baseline
 future_extensions:
   binance_adapter: false
   kalshi_adapter: false

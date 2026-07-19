@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cqf-algorithmic-trading"
+version = "0.1.0"
+description = "CQF algorithmic trading project for trend-following and mean reversion"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+
+dependencies = [
+    "alpaca-py>=0.43.5",
+    "arch",
+    "cvxpy",
+    "matplotlib",
+    "numpy",
+    "openpyxl",
+    "pandas",
+    "pyarrow",
+    "PyYAML",
+    "python-decouple",
+    "scikit-learn",
+    "scipy",
+    "statsmodels",
+    "yfinance",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "pytest-cov",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"

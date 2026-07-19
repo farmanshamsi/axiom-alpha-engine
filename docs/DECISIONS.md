@@ -188,3 +188,38 @@ After Tutorial III:
 2. Compare them against the frozen V1.0 baseline.
 3. Classify changes as mandatory, recommended, optional, or irrelevant.
 4. Update the working plan only after documenting the delta.
+
+## 2026-07-20 — Day 03 Data Architecture
+
+### Decision
+
+Use Alpaca as the primary provider for US equity bars, quotes, and trades. Store all normalized timestamps in UTC and convert to America/New_York only for session analysis and reporting.
+
+### Storage
+
+Raw and processed market data are stored locally as Parquet files. Raw datasets are immutable by default. Each stored dataset has a JSON provenance manifest and SHA-256 file hash.
+
+### Bar hierarchy
+
+- Raw research frequency: 1 minute
+- Primary strategy frequency: 15 minutes
+- Robustness frequencies: 30 and 60 minutes
+
+The project will build strategy bars internally rather than relying exclusively on provider-generated aggregated bars.
+
+### Microstructure
+
+Historical Level-1 quotes and individual trades will support:
+
+- quoted spread
+- relative spread
+- bid/ask imbalance
+- microprice
+- trade-flow analysis
+- slippage and execution-cost modelling
+
+Microstructure variables will initially act as filters and execution diagnostics rather than independent alpha strategies.
+
+### Data governance
+
+The final January–June 2026 test period remains locked. Day 03 pipeline testing used 15 December 2025, which belongs to the development period.
