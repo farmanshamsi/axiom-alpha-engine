@@ -27,47 +27,48 @@ class FakeClient:
 
 
 def make_provider() -> AlpacaMicrostructureProvider:
+    shared_timestamp = pd.Timestamp(
+        "2025-12-15T14:30:00Z"
+    )
+
     quote_index = pd.MultiIndex.from_tuples(
         [
-            (
-                "SPY",
-                pd.Timestamp(
-                    "2025-12-15T14:30:00Z"
-                ),
-            )
+            ("SPY", shared_timestamp),
+            ("SPY", shared_timestamp),
         ],
         names=["symbol", "timestamp"],
     )
 
     trade_index = pd.MultiIndex.from_tuples(
         [
-            (
-                "SPY",
-                pd.Timestamp(
-                    "2025-12-15T14:30:00Z"
-                ),
-            )
+            ("SPY", shared_timestamp),
+            ("SPY", shared_timestamp),
         ],
         names=["symbol", "timestamp"],
     )
 
     quotes = pd.DataFrame(
         {
-            "bid_price": [679.49],
-            "bid_size": [100],
-            "ask_price": [679.50],
-            "ask_size": [200],
+            "bid_price": [679.49, 679.50],
+            "bid_size": [100, 120],
+            "bid_exchange": ["V", "V"],
+            "ask_price": [679.50, 679.51],
+            "ask_size": [200, 180],
+            "ask_exchange": ["V", "V"],
+            "conditions": [["R"], ["R"]],
+            "tape": ["C", "C"],
         },
         index=quote_index,
     )
 
     trades = pd.DataFrame(
         {
-            "price": [679.50],
-            "size": [50],
-            "exchange": ["V"],
-            "conditions": [["@" ]],
-            "tape": ["C"],
+            "id": ["trade-1", "trade-2"],
+            "price": [679.50, 679.51],
+            "size": [50, 25],
+            "exchange": ["V", "V"],
+            "conditions": [["@"], ["I"]],
+            "tape": ["C", "C"],
         },
         index=trade_index,
     )
@@ -82,31 +83,67 @@ def make_provider() -> AlpacaMicrostructureProvider:
     )
 
 
-def test_fetch_quotes() -> None:
+def test_fetch_quotes_bundle_preserves_raw_and_optional_fields() -> None:
     provider = make_provider()
 
-    result = provider.fetch_quotes(
+    result = provider.fetch_quotes_bundle(
+        symbols=["spy"],
+        start="2025-12-15T14:30:00Z",
+        end="2025-12-15T14:31:00Z",
+    )
+
+    assert len(result.raw) == 2
+    assert "source" not in result.raw
+    assert "bid_exchange" in result.raw
+
+    assert len(result.normalized) == 2
+    assert result.normalized.loc[0, "symbol"] == "SPY"
+    assert result.normalized.loc[0, "bid_exchange"] == "V"
+    assert result.normalized.loc[0, "ask_exchange"] == "V"
+    assert result.normalized.loc[0, "tape"] == "C"
+
+    assert result.request_metadata["symbols"] == ["SPY"]
+    assert result.request_metadata["data_kind"] == "quotes"
+
+
+def test_fetch_trades_bundle_preserves_trade_ids() -> None:
+    provider = make_provider()
+
+    result = provider.fetch_trades_bundle(
         symbols=["SPY"],
         start="2025-12-15T14:30:00Z",
         end="2025-12-15T14:31:00Z",
     )
 
-    assert len(result) == 1
-    assert result.loc[0, "symbol"] == "SPY"
-    assert result.loc[0, "bid_price"] == 679.49
-    assert result.loc[0, "ask_price"] == 679.50
+    assert len(result.raw) == 2
+    assert "source" not in result.raw
+
+    assert len(result.normalized) == 2
+    assert result.normalized["id"].tolist() == [
+        "trade-1",
+        "trade-2",
+    ]
+    assert result.normalized["exchange"].tolist() == ["V", "V"]
+    assert result.request_metadata["data_kind"] == "trades"
 
 
-def test_fetch_trades() -> None:
+def test_same_timestamp_events_are_not_removed() -> None:
     provider = make_provider()
 
-    result = provider.fetch_trades(
+    quotes = provider.fetch_quotes(
         symbols=["SPY"],
         start="2025-12-15T14:30:00Z",
         end="2025-12-15T14:31:00Z",
     )
 
-    assert len(result) == 1
-    assert result.loc[0, "symbol"] == "SPY"
-    assert result.loc[0, "price"] == 679.50
-    assert result.loc[0, "size"] == 50
+    trades = provider.fetch_trades(
+        symbols=["SPY"],
+        start="2025-12-15T14:30:00Z",
+        end="2025-12-15T14:31:00Z",
+    )
+
+    assert len(quotes) == 2
+    assert quotes["timestamp"].nunique() == 1
+
+    assert len(trades) == 2
+    assert trades["timestamp"].nunique() == 1
