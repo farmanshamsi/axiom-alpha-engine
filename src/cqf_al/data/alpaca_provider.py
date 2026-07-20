@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 
@@ -21,6 +22,15 @@ from cqf_al.data.schemas import normalize_bars
 
 class AlpacaDataError(RuntimeError):
     """Raised when Alpaca data cannot be retrieved or normalized."""
+
+
+@dataclass(frozen=True)
+class BarFetchResult:
+    """Provider-shaped and canonical representations of one request."""
+
+    raw: pd.DataFrame
+    normalized: pd.DataFrame
+    request_metadata: dict[str, Any]
 
 
 def _as_utc_datetime(value: str | datetime | pd.Timestamp) -> datetime:
@@ -76,15 +86,15 @@ class AlpacaBarProvider:
 
         self.client = client
 
-    def fetch_bars(
+    def fetch_bars_bundle(
         self,
         *,
         symbols: Sequence[str],
         start: str | datetime | pd.Timestamp,
         end: str | datetime | pd.Timestamp,
         timeframe_minutes: int = 1,
-    ) -> pd.DataFrame:
-        """Fetch and normalize historical equity bars."""
+    ) -> BarFetchResult:
+        """Fetch provider-shaped and canonical historical bars."""
 
         clean_symbols = sorted(
             {
@@ -97,7 +107,7 @@ class AlpacaBarProvider:
         if not clean_symbols:
             raise AlpacaDataError("At least one symbol is required.")
 
-        if timeframe_minutes <= 0:
+        if not isinstance(timeframe_minutes, int) or timeframe_minutes <= 0:
             raise AlpacaDataError(
                 "timeframe_minutes must be a positive integer."
             )
@@ -128,21 +138,57 @@ class AlpacaBarProvider:
             ) from exc
 
         try:
-            frame = response.df.copy()
+            provider_frame = response.df.copy()
         except AttributeError as exc:
             raise AlpacaDataError(
                 "Alpaca response did not expose a DataFrame."
             ) from exc
 
-        if frame.empty:
+        if provider_frame.empty:
             raise AlpacaDataError(
                 "Alpaca returned no bars for the requested interval."
             )
 
-        frame = frame.reset_index()
+        # Materialize Alpaca's symbol/timestamp index as columns for Parquet.
+        # No canonical sorting, type coercion, validation or field injection
+        # is applied to this raw representation.
+        raw_frame = provider_frame.reset_index()
 
-        return normalize_bars(
-            frame,
+        normalized = normalize_bars(
+            raw_frame,
             source="alpaca",
             feed=self.feed.value,
         )
+
+        metadata = {
+            "provider": "alpaca",
+            "feed": self.feed.value,
+            "symbols": clean_symbols,
+            "timeframe_minutes": timeframe_minutes,
+            "start_utc": start_utc.isoformat(),
+            "end_utc": end_utc.isoformat(),
+            "adjustment": Adjustment.ALL.value,
+        }
+
+        return BarFetchResult(
+            raw=raw_frame,
+            normalized=normalized,
+            request_metadata=metadata,
+        )
+
+    def fetch_bars(
+        self,
+        *,
+        symbols: Sequence[str],
+        start: str | datetime | pd.Timestamp,
+        end: str | datetime | pd.Timestamp,
+        timeframe_minutes: int = 1,
+    ) -> pd.DataFrame:
+        """Fetch canonical historical equity bars."""
+
+        return self.fetch_bars_bundle(
+            symbols=symbols,
+            start=start,
+            end=end,
+            timeframe_minutes=timeframe_minutes,
+        ).normalized

@@ -120,10 +120,34 @@ def normalize_bars(
         result[column] = pd.to_numeric(result[column], errors="raise")
 
     if "trade_count" not in result:
-        result["trade_count"] = pd.NA
+        result["trade_count"] = pd.Series(
+            pd.NA,
+            index=result.index,
+            dtype="Int64",
+        )
+    else:
+        result["trade_count"] = pd.to_numeric(
+            result["trade_count"],
+            errors="raise",
+        ).astype("Int64")
 
     if "vwap" not in result:
-        result["vwap"] = pd.NA
+        result["vwap"] = pd.Series(
+            pd.NA,
+            index=result.index,
+            dtype="Float64",
+        )
+    else:
+        result["vwap"] = pd.to_numeric(
+            result["vwap"],
+            errors="raise",
+        ).astype("Float64")
+
+    if (result["trade_count"].dropna() < 0).any():
+        raise SchemaError("Trade count cannot be negative.")
+
+    if (result["vwap"].dropna() <= 0).any():
+        raise SchemaError("VWAP must be strictly positive when available.")
 
     if (result[["open", "high", "low", "close"]] <= 0).any().any():
         raise SchemaError("OHLC prices must be strictly positive.")
