@@ -60,6 +60,8 @@ data:
   metadata_storage_dir: data/metadata
   storage_format: parquet
   allow_raw_overwrite: false
+  external_price_tolerance_bps: 50.0
+  external_volume_tolerance_pct: 25.0
 event_bars:
   enabled: true
   primary_type: dollar
