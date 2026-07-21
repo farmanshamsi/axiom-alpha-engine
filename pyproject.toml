@@ -24,6 +24,7 @@ dependencies = [
     "scipy",
     "statsmodels",
     "yfinance",
+    "exchange-calendars==4.13.2",
 ]
 
 [project.optional-dependencies]

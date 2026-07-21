@@ -190,3 +190,276 @@ def test_locked_test_observation_is_rejected() -> None:
             window=sample_window(),
             expected_symbols=["SPY", "QQQ", "IWM"],
         )
+
+
+def test_monthly_chunks_cover_entire_development_window() -> None:
+    from cqf_al.data.development_dataset import (
+        build_monthly_development_chunks,
+    )
+
+    chunks = build_monthly_development_chunks(
+        sample_window()
+    )
+
+    assert len(chunks) == 72
+    assert chunks[0].label == "2020-01"
+    assert chunks[-1].label == "2025-12"
+
+    assert chunks[0].start == pd.Timestamp(
+        "2020-01-02T00:00:00Z"
+    )
+
+    assert chunks[-1].end_exclusive == pd.Timestamp(
+        "2026-01-01T00:00:00Z"
+    )
+
+    for previous, following in zip(
+        chunks,
+        chunks[1:],
+    ):
+        assert previous.end_exclusive == following.start
+
+
+def test_regular_session_filter_removes_extended_hours() -> None:
+    from cqf_al.data.development_dataset import (
+        filter_regular_session_bars,
+    )
+
+    frame = make_bars(
+        symbol="SPY",
+        timestamps=[
+            "2020-01-02T14:15:00Z",
+            "2020-01-02T14:30:00Z",
+            "2020-01-02T20:45:00Z",
+            "2020-01-02T21:00:00Z",
+        ],
+    )
+
+    result = filter_regular_session_bars(frame)
+
+    assert result["timestamp"].tolist() == [
+        pd.Timestamp("2020-01-02T14:30:00Z"),
+        pd.Timestamp("2020-01-02T20:45:00Z"),
+    ]
+
+
+def test_complete_month_passes_edge_coverage() -> None:
+    from cqf_al.data.development_dataset import (
+        DevelopmentChunk,
+        validate_chunk_edge_coverage,
+    )
+
+    chunk = DevelopmentChunk(
+        label="2020-01",
+        start=pd.Timestamp("2020-01-02T00:00:00Z"),
+        end_exclusive=pd.Timestamp(
+            "2020-02-01T00:00:00Z"
+        ),
+    )
+
+    frames = []
+
+    for symbol in ("SPY", "QQQ", "IWM"):
+        frames.append(
+            make_bars(
+                symbol=symbol,
+                timestamps=[
+                    "2020-01-02T14:30:00Z",
+                    "2020-01-31T20:45:00Z",
+                ],
+            )
+        )
+
+    validate_chunk_edge_coverage(
+        pd.concat(frames, ignore_index=True),
+        chunk=chunk,
+        expected_symbols=["SPY", "QQQ", "IWM"],
+    )
+
+
+def test_truncated_year_fails_edge_coverage() -> None:
+    from cqf_al.data.development_dataset import (
+        DevelopmentChunk,
+        validate_chunk_edge_coverage,
+    )
+
+    chunk = DevelopmentChunk(
+        label="2020",
+        start=pd.Timestamp("2020-01-02T00:00:00Z"),
+        end_exclusive=pd.Timestamp(
+            "2021-01-01T00:00:00Z"
+        ),
+    )
+
+    frames = []
+
+    for symbol in ("SPY", "QQQ", "IWM"):
+        frames.append(
+            make_bars(
+                symbol=symbol,
+                timestamps=[
+                    "2020-07-27T13:30:00Z",
+                    "2020-12-31T20:45:00Z",
+                ],
+            )
+        )
+
+    with pytest.raises(
+        DevelopmentDatasetError,
+        match="failed edge-coverage",
+    ):
+        validate_chunk_edge_coverage(
+            pd.concat(frames, ignore_index=True),
+            chunk=chunk,
+            expected_symbols=["SPY", "QQQ", "IWM"],
+        )
+
+
+def test_exchange_calendar_filter_handles_early_close() -> None:
+    from cqf_al.data.development_dataset import (
+        filter_regular_session_bars,
+    )
+
+    frame = make_bars(
+        symbol="SPY",
+        timestamps=[
+            "2020-11-27T14:30:00Z",
+            "2020-11-27T17:45:00Z",
+            "2020-11-27T18:00:00Z",
+            "2020-11-27T20:45:00Z",
+        ],
+    )
+
+    result = filter_regular_session_bars(frame)
+
+    assert result["timestamp"].tolist() == [
+        pd.Timestamp("2020-11-27T14:30:00Z"),
+        pd.Timestamp("2020-11-27T17:45:00Z"),
+    ]
+
+
+def test_exchange_calendar_filter_removes_holiday() -> None:
+    from cqf_al.data.development_dataset import (
+        filter_regular_session_bars,
+    )
+
+    frame = pd.concat(
+        [
+            make_bars(
+                symbol="SPY",
+                timestamps=[
+                    "2020-12-24T14:30:00Z",
+                ],
+            ),
+            make_bars(
+                symbol="SPY",
+                timestamps=[
+                    "2020-12-25T14:30:00Z",
+                ],
+            ),
+        ],
+        ignore_index=True,
+    )
+
+    result = filter_regular_session_bars(frame)
+
+    assert result["timestamp"].tolist() == [
+        pd.Timestamp("2020-12-24T14:30:00Z"),
+    ]
+
+
+def test_complete_grid_accepts_early_close_session() -> None:
+    from cqf_al.data.development_dataset import (
+        DevelopmentChunk,
+        validate_complete_session_grid,
+    )
+
+    timestamps = pd.date_range(
+        start="2020-11-27T14:30:00Z",
+        end="2020-11-27T18:00:00Z",
+        freq="15min",
+        inclusive="left",
+    )
+
+    frame = pd.concat(
+        [
+            make_bars(
+                symbol=symbol,
+                timestamps=[
+                    timestamp.isoformat()
+                    for timestamp in timestamps
+                ],
+            )
+            for symbol in ("SPY", "QQQ", "IWM")
+        ],
+        ignore_index=True,
+    )
+
+    chunk = DevelopmentChunk(
+        label="2020-11-27",
+        start=pd.Timestamp(
+            "2020-11-27T00:00:00Z"
+        ),
+        end_exclusive=pd.Timestamp(
+            "2020-11-28T00:00:00Z"
+        ),
+    )
+
+    validate_complete_session_grid(
+        frame,
+        chunk=chunk,
+        expected_symbols=("SPY", "QQQ", "IWM"),
+    )
+
+
+def test_complete_grid_rejects_missing_bar() -> None:
+    from cqf_al.data.development_dataset import (
+        DevelopmentChunk,
+        DevelopmentDatasetError,
+        validate_complete_session_grid,
+    )
+
+    timestamps = pd.date_range(
+        start="2020-11-27T14:30:00Z",
+        end="2020-11-27T18:00:00Z",
+        freq="15min",
+        inclusive="left",
+    )
+
+    frames = []
+
+    for symbol in ("SPY", "QQQ", "IWM"):
+        symbol_timestamps = list(timestamps)
+
+        if symbol == "IWM":
+            symbol_timestamps = symbol_timestamps[:-1]
+
+        frames.append(
+            make_bars(
+                symbol=symbol,
+                timestamps=[
+                    timestamp.isoformat()
+                    for timestamp in symbol_timestamps
+                ],
+            )
+        )
+
+    chunk = DevelopmentChunk(
+        label="2020-11-27",
+        start=pd.Timestamp(
+            "2020-11-27T00:00:00Z"
+        ),
+        end_exclusive=pd.Timestamp(
+            "2020-11-28T00:00:00Z"
+        ),
+    )
+
+    with pytest.raises(
+        DevelopmentDatasetError,
+        match="Incomplete official exchange-session grid",
+    ):
+        validate_complete_session_grid(
+            pd.concat(frames, ignore_index=True),
+            chunk=chunk,
+            expected_symbols=("SPY", "QQQ", "IWM"),
+        )
