@@ -45,6 +45,8 @@ def _safe_component(value: str) -> str:
 
 
 def _sha256(path: Path) -> str:
+    """Calculate a streaming SHA-256 file hash."""
+
     digest = hashlib.sha256()
 
     with path.open("rb") as file:
@@ -72,16 +74,47 @@ class LocalParquetStore:
     def from_project_config(
         cls,
         config: dict[str, Any] | None = None,
+        *,
+        tier: str = "raw",
     ) -> "LocalParquetStore":
+        """Create a raw or processed store from project configuration."""
+
         project_config = config or load_project_config()
         directories = resolve_data_directories(project_config)
 
+        normalized_tier = tier.strip().lower()
+
+        if normalized_tier not in {"raw", "processed"}:
+            raise ImmutableStoreError(
+                "Storage tier must be either 'raw' or 'processed'."
+            )
+
+        allow_overwrite = (
+            project_config["data"]["allow_raw_overwrite"]
+            if normalized_tier == "raw"
+            else False
+        )
+
         return cls(
-            data_root=directories["raw"],
-            metadata_root=directories["metadata"],
-            allow_overwrite=project_config["data"][
-                "allow_raw_overwrite"
-            ],
+            data_root=directories[normalized_tier],
+            metadata_root=(
+                directories["metadata"] / normalized_tier
+            ),
+            allow_overwrite=allow_overwrite,
+        )
+
+    def _artifact_paths(
+        self,
+        *,
+        dataset_kind: str,
+        dataset_id: str,
+    ) -> tuple[Path, Path]:
+        kind = _safe_component(dataset_kind)
+        identifier = _safe_component(dataset_id)
+
+        return (
+            self.data_root / kind / f"{identifier}.parquet",
+            self.metadata_root / kind / f"{identifier}.json",
         )
 
     def write(
@@ -91,23 +124,22 @@ class LocalParquetStore:
         dataset_kind: str,
         dataset_id: str,
         metadata: dict[str, Any],
+        schema_version: str = "1.0",
     ) -> StoredArtifact:
         """Store a dataset exactly once unless overwrite is enabled."""
 
         if frame.empty:
             raise ImmutableStoreError("Cannot store an empty dataset.")
 
-        kind = _safe_component(dataset_kind)
-        identifier = _safe_component(dataset_id)
+        version = _safe_component(schema_version)
 
-        data_directory = self.data_root / kind
-        metadata_directory = self.metadata_root / kind
+        data_path, manifest_path = self._artifact_paths(
+            dataset_kind=dataset_kind,
+            dataset_id=dataset_id,
+        )
 
-        data_directory.mkdir(parents=True, exist_ok=True)
-        metadata_directory.mkdir(parents=True, exist_ok=True)
-
-        data_path = data_directory / f"{identifier}.parquet"
-        manifest_path = metadata_directory / f"{identifier}.json"
+        data_path.parent.mkdir(parents=True, exist_ok=True)
+        manifest_path.parent.mkdir(parents=True, exist_ok=True)
 
         if not self.allow_overwrite:
             existing = [
@@ -134,8 +166,9 @@ class LocalParquetStore:
         file_hash = _sha256(temporary_data)
 
         manifest = {
-            "dataset_id": identifier,
-            "dataset_kind": kind,
+            "dataset_id": _safe_component(dataset_id),
+            "dataset_kind": _safe_component(dataset_kind),
+            "schema_version": version,
             "created_at_utc": datetime.now(timezone.utc).isoformat(),
             "row_count": int(len(frame)),
             "columns": list(frame.columns),
@@ -173,21 +206,66 @@ class LocalParquetStore:
             row_count=len(frame),
         )
 
+    def read_manifest(
+        self,
+        *,
+        dataset_kind: str,
+        dataset_id: str,
+    ) -> dict[str, Any]:
+        """Read and validate a dataset manifest."""
+
+        _, manifest_path = self._artifact_paths(
+            dataset_kind=dataset_kind,
+            dataset_id=dataset_id,
+        )
+
+        if not manifest_path.exists():
+            raise ImmutableStoreError(
+                f"Manifest not found: {manifest_path}"
+            )
+
+        with manifest_path.open("r", encoding="utf-8") as file:
+            manifest = json.load(file)
+
+        if not isinstance(manifest, dict):
+            raise ImmutableStoreError(
+                f"Invalid manifest structure: {manifest_path}"
+            )
+
+        return manifest
+
     def read(
         self,
         *,
         dataset_kind: str,
         dataset_id: str,
+        verify_hash: bool = True,
     ) -> pd.DataFrame:
-        """Read a previously stored immutable dataset."""
+        """Read a dataset and verify its SHA-256 integrity by default."""
 
-        path = (
-            self.data_root
-            / _safe_component(dataset_kind)
-            / f"{_safe_component(dataset_id)}.parquet"
+        data_path, _ = self._artifact_paths(
+            dataset_kind=dataset_kind,
+            dataset_id=dataset_id,
         )
 
-        if not path.exists():
-            raise ImmutableStoreError(f"Dataset not found: {path}")
+        if not data_path.exists():
+            raise ImmutableStoreError(
+                f"Dataset not found: {data_path}"
+            )
 
-        return pd.read_parquet(path)
+        if verify_hash:
+            manifest = self.read_manifest(
+                dataset_kind=dataset_kind,
+                dataset_id=dataset_id,
+            )
+
+            expected_hash = manifest.get("sha256")
+            actual_hash = _sha256(data_path)
+
+            if not expected_hash or actual_hash != expected_hash:
+                raise ImmutableStoreError(
+                    "Dataset SHA-256 verification failed: "
+                    f"{data_path}"
+                )
+
+        return pd.read_parquet(data_path)

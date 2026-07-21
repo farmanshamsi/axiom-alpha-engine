@@ -30,8 +30,12 @@ QUOTE_COLUMNS = [
     "symbol",
     "bid_price",
     "bid_size",
+    "bid_exchange",
     "ask_price",
     "ask_size",
+    "ask_exchange",
+    "conditions",
+    "tape",
     "source",
     "feed",
 ]
@@ -39,6 +43,7 @@ QUOTE_COLUMNS = [
 TRADE_COLUMNS = [
     "timestamp",
     "symbol",
+    "id",
     "price",
     "size",
     "exchange",
@@ -120,10 +125,34 @@ def normalize_bars(
         result[column] = pd.to_numeric(result[column], errors="raise")
 
     if "trade_count" not in result:
-        result["trade_count"] = pd.NA
+        result["trade_count"] = pd.Series(
+            pd.NA,
+            index=result.index,
+            dtype="Int64",
+        )
+    else:
+        result["trade_count"] = pd.to_numeric(
+            result["trade_count"],
+            errors="raise",
+        ).astype("Int64")
 
     if "vwap" not in result:
-        result["vwap"] = pd.NA
+        result["vwap"] = pd.Series(
+            pd.NA,
+            index=result.index,
+            dtype="Float64",
+        )
+    else:
+        result["vwap"] = pd.to_numeric(
+            result["vwap"],
+            errors="raise",
+        ).astype("Float64")
+
+    if (result["trade_count"].dropna() < 0).any():
+        raise SchemaError("Trade count cannot be negative.")
+
+    if (result["vwap"].dropna() <= 0).any():
+        raise SchemaError("VWAP must be strictly positive when available.")
 
     if (result[["open", "high", "low", "close"]] <= 0).any().any():
         raise SchemaError("OHLC prices must be strictly positive.")
@@ -188,6 +217,29 @@ def normalize_quotes(
     if (result["bid_price"] > result["ask_price"]).any():
         raise SchemaError("Crossed quote detected: bid exceeds ask.")
 
+    for optional_column in [
+        "bid_exchange",
+        "ask_exchange",
+        "tape",
+    ]:
+        if optional_column not in result:
+            result[optional_column] = pd.Series(
+                pd.NA,
+                index=result.index,
+                dtype="string",
+            )
+        else:
+            result[optional_column] = (
+                result[optional_column].astype("string")
+            )
+
+    if "conditions" not in result:
+        result["conditions"] = pd.Series(
+            pd.NA,
+            index=result.index,
+            dtype="object",
+        )
+
     return result[QUOTE_COLUMNS]
 
 
@@ -218,8 +270,23 @@ def normalize_trades(
     if (result["size"] <= 0).any():
         raise SchemaError("Trade sizes must be strictly positive.")
 
-    for optional_column in ["exchange", "conditions", "tape"]:
+    for optional_column in ["id", "exchange", "tape"]:
         if optional_column not in result:
-            result[optional_column] = pd.NA
+            result[optional_column] = pd.Series(
+                pd.NA,
+                index=result.index,
+                dtype="string",
+            )
+        else:
+            result[optional_column] = (
+                result[optional_column].astype("string")
+            )
+
+    if "conditions" not in result:
+        result["conditions"] = pd.Series(
+            pd.NA,
+            index=result.index,
+            dtype="object",
+        )
 
     return result[TRADE_COLUMNS]

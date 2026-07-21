@@ -1,48 +1,45 @@
-"""Validate and resample the Day 03 SPY development sample."""
+"""Validate and resample the Day 04 canonical SPY sample."""
 
-from pathlib import Path
-
-import pandas as pd
-
-from cqf_al.data.config_loader import (
-    load_project_config,
-    resolve_data_directories,
-)
+from cqf_al.data.config_loader import load_project_config
 from cqf_al.data.local_store import LocalParquetStore
 from cqf_al.data.resampling import resample_bars
 from cqf_al.data.validators import assert_valid_bars
 
 
-RAW_PATH = Path(
-    "data/raw/bars/spy_1min_2025-12-15_iex.parquet"
-)
+SOURCE_DATASET_ID = "spy_1min_2025-12-15_iex_canonical"
 
 
 def main() -> None:
     config = load_project_config()
-    directories = resolve_data_directories(config)
 
-    raw = pd.read_parquet(RAW_PATH)
+    store = LocalParquetStore.from_project_config(
+        config,
+        tier="processed",
+    )
+
+    source = store.read(
+        dataset_kind="bars",
+        dataset_id=SOURCE_DATASET_ID,
+    )
+
+    source_manifest = store.read_manifest(
+        dataset_kind="bars",
+        dataset_id=SOURCE_DATASET_ID,
+    )
 
     report = assert_valid_bars(
-        raw,
+        source,
         expected_minutes=1,
         exchange_timezone=config["market"]["exchange_timezone"],
     )
 
-    print("Raw validation passed:", report.passed)
-    print("Raw rows:", report.row_count)
+    print("Source validation passed:", report.passed)
+    print("Source rows:", report.row_count)
     print("Internal missing bars:", report.internal_missing_bars)
-
-    store = LocalParquetStore(
-        data_root=directories["processed"],
-        metadata_root=directories["metadata"] / "processed",
-        allow_overwrite=False,
-    )
 
     for minutes in (15, 30, 60):
         processed = resample_bars(
-            raw,
+            source,
             timeframe_minutes=minutes,
         )
 
@@ -50,12 +47,10 @@ def main() -> None:
             processed,
             dataset_kind="bars",
             dataset_id=f"spy_{minutes}min_2025-12-15_iex",
+            schema_version=f"canonical-bars-{minutes}min-v1",
             metadata={
-                "source_dataset": str(RAW_PATH),
-                "source_sha256": (
-                    "bb62191d6cf015d1ac24f680fdc8ac902"
-                    "ae8fa1ce985badf8b9934ba52b4298e"
-                ),
+                "source_dataset_id": SOURCE_DATASET_ID,
+                "source_sha256": source_manifest["sha256"],
                 "resampling_minutes": minutes,
                 "aggregation": {
                     "open": "first",
