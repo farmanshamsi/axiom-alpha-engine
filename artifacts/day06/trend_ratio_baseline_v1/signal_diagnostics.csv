@@ -1,0 +1,2 @@
+symbol,observations,signal_warmup_observations,position_warmup_observations,long_signals,short_signals,neutral_signals,long_exposure_pct,short_exposure_pct,flat_exposure_pct,total_turnover,position_changes
+SPY,39064,31,32,17283,12837,8913,44.279053084648496,32.88583726173396,22.835109653617543,2743.0,2717
