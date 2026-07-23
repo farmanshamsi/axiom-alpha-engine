@@ -732,33 +732,33 @@ These results support volatility-aware risk management and regime analysis. They
 
 Simple return:
 
-\[
+\\[
 R_t = \\frac{{P_t}}{{P_{{t-1}}}}-1.
-\]
+\\]
 
 Log return:
 
-\[
+\\[
 r_t = \\log P_t-\\log P_{{t-1}}.
-\]
+\\]
 
 Intraday bar returns exclude overnight transitions. Overnight returns were calculated separately as:
 
-\[
+\\[
 r_d^{{ON}}
 =
 \\log O_d-\\log C_{{d-1}}.
-\]
+\\]
 
 The daily decomposition was numerically reconciled:
 
-\[
+\\[
 r_d^{{CC}}
 =
 r_d^{{ON}}
 +
 r_d^{{RS}}.
-\]
+\\]
 
 ## 3. Daily return distributions
 
@@ -792,20 +792,20 @@ Rejection in raw returns must not automatically be interpreted as exploitable di
 
 ## 6. Realized volatility
 
-\[
+\\[
 RV_d
 =
 \\sum_{{k=1}}^{{N_d}}
 r_{{d,k}}^2.
-\]
+\\]
 
 Annualized daily realized volatility was calculated as:
 
-\[
+\\[
 \\sigma_{{d,ann}}
 =
 \\sqrt{{252RV_d}}.
-\]
+\\]
 
 {markdown_table(volatility)}
 
