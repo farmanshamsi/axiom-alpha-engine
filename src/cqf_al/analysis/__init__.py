@@ -42,6 +42,13 @@ from cqf_al.analysis.stylized_facts import (
     build_intraday_acf_table,
     build_stylized_facts,
 )
+from cqf_al.analysis.strategy_performance import (
+    PerformanceMetrics,
+    StrategyPerformanceError,
+    build_performance_summary,
+    build_wealth_index,
+    calculate_performance_metrics,
+)
 from cqf_al.analysis.volatility_seasonality import (
     VolatilitySeasonalityBundle,
     VolatilitySeasonalityError,
@@ -59,6 +66,8 @@ __all__ = [
     "EdaFeatureError",
     "EventBarDiagnosticBundle",
     "EventBarDiagnosticError",
+    "PerformanceMetrics",
+    "StrategyPerformanceError",
     "StylizedFactsBundle",
     "StylizedFactsError",
     "VolatilitySeasonalityBundle",
@@ -76,6 +85,7 @@ __all__ = [
     "build_intraday_acf_table",
     "build_intraday_seasonality_table",
     "build_pairwise_dependence_table",
+    "build_performance_summary",
     "build_regime_dependence_tables",
     "build_return_features",
     "build_rolling_dependence_table",
@@ -86,7 +96,9 @@ __all__ = [
     "build_time_bars_from_trades",
     "build_volatility_regimes",
     "build_volatility_seasonality",
+    "build_wealth_index",
     "calculate_event_thresholds",
+    "calculate_performance_metrics",
     "find_fatal_quality_failures",
     "infer_time_rule",
     "normalize_bars",
