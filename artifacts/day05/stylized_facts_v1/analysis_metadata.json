@@ -1,0 +1,20 @@
+{
+  "analysis": "day05_stylized_facts_v1",
+  "bar_feature_rows": 117192,
+  "generated_at_utc": "2026-07-22T23:02:12.312059+00:00",
+  "interpretation_warning": "Large samples make formal normality tests highly sensitive. Economic interpretation must use skewness, kurtosis, quantiles and tail frequencies alongside p-values.",
+  "session_feature_rows": 4524,
+  "symbols": [
+    "IWM",
+    "QQQ",
+    "SPY"
+  ],
+  "tables": {
+    "daily_acf.csv": 27,
+    "daily_ljung_box.csv": 27,
+    "intraday_acf.csv": 54,
+    "return_moments.csv": 12,
+    "return_quantiles.csv": 84,
+    "tail_rates.csv": 36
+  }
+}

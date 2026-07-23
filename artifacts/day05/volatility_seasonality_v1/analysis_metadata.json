@@ -1,0 +1,9 @@
+{
+  "analysis": "day05_volatility_seasonality_v1",
+  "annualization_days": 252,
+  "daily_rows": 4524,
+  "generated_at_utc": "2026-07-22T23:08:15.389391+00:00",
+  "jump_warning": "RV minus bipower variation is retained as a descriptive jump/outlier proxy, not as a formal jump-test conclusion.",
+  "maximum_regular_return_reconciliation_error": 0.0,
+  "seasonality_rows": 78
+}

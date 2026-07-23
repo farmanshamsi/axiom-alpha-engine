@@ -1,0 +1,5 @@
+bar_type,threshold,target_bar_count,threshold_method
+time,6s,10,sample duration divided by target bar count
+tick,12.0,10,sample trades divided by target bar count
+volume,805.2,10,sample shares divided by target bar count
+dollar,551781.2205,10,sample notional divided by target bar count

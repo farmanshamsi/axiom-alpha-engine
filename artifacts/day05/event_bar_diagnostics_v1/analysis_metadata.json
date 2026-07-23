@@ -1,0 +1,20 @@
+{
+  "analysis": "day05_event_bar_diagnostics_v1",
+  "conservation_gate": {
+    "dollar_value_pass": true,
+    "trade_count_pass": true,
+    "volume_pass": true
+  },
+  "event_bar_candidate": "Dollar bars, deferred until a representative multi-session trade sample exists.",
+  "evidence_classification": "engineering smoke test only",
+  "generated_at_utc": "2026-07-22T23:29:01.806390+00:00",
+  "primary_sampling_decision": "Retain 15-minute SIP time bars.",
+  "source_dataset_id": "spy_trades_2025-12-15_1430_1431_iex_canonical",
+  "source_maximum_timestamp": "2025-12-15 14:30:59.907562+00:00",
+  "source_minimum_timestamp": "2025-12-15 14:30:00.092283+00:00",
+  "source_sha256": "faba6f8a630b670dc347eca59a808deebb11dec50e411a043ce6e95823ebbd3e",
+  "source_trade_count": 112,
+  "statistical_inference_allowed": false,
+  "target_bar_count": 10,
+  "threshold_warning": "Thresholds were derived from the same one-minute source sample solely to compare bar mechanics. They must not be used as strategy parameters."
+}
