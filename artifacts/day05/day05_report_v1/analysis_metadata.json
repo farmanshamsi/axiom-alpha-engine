@@ -1,0 +1,32 @@
+{
+  "analysis": "day05_consolidated_report_v1",
+  "artifact_root": "artifacts/day05",
+  "calculation_policy": "Presentation layer only. Existing Day 05 tables are the source of truth.",
+  "figure_files": [
+    "daily_return_distributions.png",
+    "rolling_realized_volatility.png",
+    "intraday_variance_seasonality.png",
+    "rolling_dependence_63d.png",
+    "tail_coexceedance_5pct.png"
+  ],
+  "generated_at_utc": "2026-07-22T23:43:23.591440+00:00",
+  "locked_test_accessed": false,
+  "report_path": "artifacts/day05/day05_report_v1/DAY05_FINDINGS.md",
+  "source_files": {
+    "daily_ljung_box": "artifacts/day05/stylized_facts_v1/tables/daily_ljung_box.csv",
+    "daily_volatility": "artifacts/day05/volatility_seasonality_v1/data/daily_volatility.parquet",
+    "event_comparison": "artifacts/day05/event_bar_diagnostics_v1/tables/sampling_comparison.csv",
+    "event_conservation": "artifacts/day05/event_bar_diagnostics_v1/tables/conservation.csv",
+    "event_decision": "artifacts/day05/event_bar_diagnostics_v1/tables/sampling_decision.csv",
+    "intraday_acf": "artifacts/day05/stylized_facts_v1/tables/intraday_acf.csv",
+    "moments": "artifacts/day05/stylized_facts_v1/tables/return_moments.csv",
+    "pairwise_dependence": "artifacts/day05/dependence_v1/tables/pairwise_dependence.csv",
+    "regime_dependence": "artifacts/day05/dependence_v1/tables/regime_dependence.csv",
+    "rolling_dependence": "artifacts/day05/dependence_v1/tables/rolling_dependence.csv",
+    "seasonality": "artifacts/day05/volatility_seasonality_v1/tables/intraday_seasonality.csv",
+    "session_returns": "artifacts/day05/eda_v1/data/session_return_features.parquet",
+    "tail_dependence": "artifacts/day05/dependence_v1/tables/tail_dependence.csv",
+    "tail_rates": "artifacts/day05/stylized_facts_v1/tables/tail_rates.csv",
+    "volatility_summary": "artifacts/day05/volatility_seasonality_v1/tables/volatility_summary.csv"
+  }
+}

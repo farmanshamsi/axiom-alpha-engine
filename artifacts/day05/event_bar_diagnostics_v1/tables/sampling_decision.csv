@@ -1,0 +1,5 @@
+sampling_method,project_role,decision,reason
+15-minute time bars,primary research frequency,retain,"Complete six-year SIP development coverage, exact exchange-calendar validation and sufficient observations."
+dollar bars,future event-bar experiment candidate,implementation verified; statistical acceptance deferred,"Dollar bars normalize economic activity, but the available trade sample spans only one minute."
+tick bars,engineering robustness,implementation verified only,"Trade-count conservation is verified, but no representative multi-session sample is currently available."
+volume bars,engineering robustness,implementation verified only,"Volume conservation is verified, but the one-minute sample cannot support distributional conclusions."

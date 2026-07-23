@@ -1,0 +1,5 @@
+sampling_method,input_trade_count,output_trade_count,trade_count_error,input_volume,output_volume,volume_error,input_dollar_value,output_dollar_value,dollar_value_error
+time_6s,112,112,0,8052.0,8052.0,0.0,5517812.205,5517812.205,0.0
+tick,112,112,0,8052.0,8052.0,0.0,5517812.205,5517812.205000001,9.313225746154785e-10
+volume,112,112,0,8052.0,8052.0,0.0,5517812.205,5517812.205,0.0
+dollar,112,112,0,8052.0,8052.0,0.0,5517812.205,5517812.205,0.0

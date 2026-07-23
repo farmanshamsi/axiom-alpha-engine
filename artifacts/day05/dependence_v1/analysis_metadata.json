@@ -1,0 +1,25 @@
+{
+  "analysis": "day05_dependence_diagnostics_v1",
+  "daily_volatility_rows": 4524,
+  "generated_at_utc": "2026-07-22T23:13:20.217977+00:00",
+  "rolling_windows": [
+    63,
+    126
+  ],
+  "session_rows": 4524,
+  "stress_definition": "SPY annualized total realized volatility at or above its development-sample 80th percentile",
+  "tables": {
+    "pairwise_dependence.csv": 3,
+    "regime_definition.csv": 1,
+    "regime_dependence.csv": 6,
+    "regime_tail_dependence.csv": 18,
+    "rolling_dependence.csv": 8481,
+    "tail_dependence.csv": 9
+  },
+  "tail_probabilities": [
+    0.01,
+    0.05,
+    0.1
+  ],
+  "warning": "These are descriptive dependence diagnostics. They do not establish cointegration or tradable mean reversion."
+}

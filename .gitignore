@@ -12,3 +12,8 @@ data/metadata/
 .coverage
 htmlcov/
 *.egg-info/
+
+# Reproducible analytical datasets
+artifacts/**/*.parquet
+artifacts/day05/volatility_seasonality_v1/tables/daily_volatility.csv
+artifacts/day05/dependence_v1/tables/rolling_dependence.csv
