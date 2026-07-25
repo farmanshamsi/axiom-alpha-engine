@@ -1,0 +1,2 @@
+symbol,observations,signal_available_observations,position_eligible_observations,signal_warmup_observations,position_warmup_observations,fast_ema_half_life_bars,slow_ema_half_life_bars,signal_ema_half_life_bars,total_turnover,position_changing_bars,long_exposure_pct,short_exposure_pct,neutral_exposure_pct
+SPY,39064,39031,39030,33,34,4.14923814618,9.006468342,3.10628371951,3318,3303,17.2892646682,16.8665129388,65.844222393

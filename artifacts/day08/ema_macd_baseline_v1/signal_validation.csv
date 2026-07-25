@@ -1,0 +1,5 @@
+symbol,horizon_bars,observations,pearson_information_coefficient,spearman_information_coefficient,requested_signal_buckets,actual_signal_buckets,bucket_mean_spearman_monotonicity,adjacent_increasing_bucket_proportion
+SPY,1,39030,-0.0149500537648,0.00770001458964,5,5,0.3,0.5
+SPY,4,39027,-0.00656288167542,0.0195249378049,5,5,0.6,0.5
+SPY,8,39023,0.00697513892452,0.0246349777048,5,5,0.6,0.5
+SPY,16,39015,0.0108082078778,0.0293156153705,5,5,0.7,0.75
