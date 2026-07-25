@@ -19,6 +19,10 @@ from cqf_al.data.config_loader import (
 from cqf_al.data.local_store import LocalParquetStore
 from cqf_al.data.sample_windows import SampleWindow
 from cqf_al.strategies.trend_ratio import (
+    DEFAULT_COST_BPS_PER_TURNOVER,
+    DEFAULT_LONG_WINDOW,
+    DEFAULT_NEUTRAL_BAND,
+    DEFAULT_SHORT_WINDOW,
     TrendRatioParameters,
     build_trend_ratio_strategy,
 )
@@ -35,10 +39,12 @@ ARTIFACT_RELATIVE_DIRECTORY: Final[Path] = Path(
 )
 
 SYMBOL: Final[str] = "SPY"
-SHORT_WINDOW: Final[int] = 8
-LONG_WINDOW: Final[int] = 32
-NEUTRAL_BAND: Final[float] = 0.001
-COST_BPS_PER_TURNOVER: Final[float] = 1.0
+SHORT_WINDOW: Final[int] = DEFAULT_SHORT_WINDOW
+LONG_WINDOW: Final[int] = DEFAULT_LONG_WINDOW
+NEUTRAL_BAND: Final[float] = DEFAULT_NEUTRAL_BAND
+COST_BPS_PER_TURNOVER: Final[float] = (
+    DEFAULT_COST_BPS_PER_TURNOVER
+)
 PRICE_COLUMN: Final[str] = "close"
 RETURN_COLUMN: Final[str] = (
     "close_to_close_simple_return"

@@ -13,6 +13,10 @@ from cqf_al.analysis._validation import make_column_validator
 
 
 BASIS_POINTS_PER_UNIT: Final[float] = 10_000.0
+DEFAULT_SHORT_WINDOW: Final[int] = 8
+DEFAULT_LONG_WINDOW: Final[int] = 32
+DEFAULT_NEUTRAL_BAND: Final[float] = 0.001
+DEFAULT_COST_BPS_PER_TURNOVER: Final[float] = 1.0
 
 
 class TrendRatioError(ValueError):

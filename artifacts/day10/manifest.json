@@ -1,0 +1,58 @@
+{
+  "analysis_name": "trend_family_robustness",
+  "annualization_factors": {
+    "15min": 6552,
+    "30min": 3276,
+    "60min": 1764
+  },
+  "artifact_sha256": {
+    "drawdown.png": "cf33c83d5cb2938073b35001fc583c3a2fe51b667ef508d1db13b4f65b4cb909",
+    "matrix.csv": "f56ee3902bc101a8ca031c3194f66c052e7bb63532b7b59baf1fdba95935dd4e",
+    "report.md": "faf73e55ed526edb58797e3f175255d90325ebeafc8e47cc06867f28c745ccc0",
+    "sharpe.png": "73480dce84a47b10d7bcda506c1406fe11f733163990da70825c0574c5b63417",
+    "summary.csv": "7458f4716a03fae073b8a219cc741ca3c1a646fa7a019914e3ebf5c761a435c9",
+    "turnover.png": "95bf2ee0fbff998f43c74270da4f7fed8a8143efab7b383baee7630bb052b82a"
+  },
+  "day": 10,
+  "development_end": "2025-12-31",
+  "development_start": "2020-01-02",
+  "diagnostic_thresholds": {
+    "extreme_turnover_ratio_high": 4.0,
+    "extreme_turnover_ratio_low": 0.25,
+    "low_active_observation_proportion": 0.2,
+    "material_drawdown_increase": 0.1,
+    "near_permanent_directional_exposure_pct": 95.0,
+    "permanent_flat_exposure_pct": 99.5
+  },
+  "fixed_bar_window_policy": "Keep frozen strategy windows measured in bars; do not convert them to clock-time equivalents across frequencies.",
+  "frequencies": [
+    "15min",
+    "30min",
+    "60min"
+  ],
+  "generation_timestamp": "2026-07-25T21:07:52Z",
+  "locked_2026_period_accessed": false,
+  "matrix_run_count": 18,
+  "output_row_counts_by_frequency": {
+    "15min": 117192,
+    "30min": 58596,
+    "60min": 31560
+  },
+  "partial_bar_policy": "Retain the final two-input 60-minute closing bar and mark it partial; 15- and 30-minute bars are complete.",
+  "source_dataset_identifier": "spy_qqq_iwm_15min_2020-01-02_2025-12-31_sip_v3_development_canonical",
+  "source_git_commit": "56f320a2fc45bbce36f3914f22c4c8658b709e2c",
+  "source_row_count": 117192,
+  "strategies": [
+    "trend_ratio",
+    "ema_macd"
+  ],
+  "strategy_configuration_identifiers": {
+    "ema_macd": "ema_macd_day08_baseline_v1",
+    "trend_ratio": "trend_ratio_day06_baseline_v1"
+  },
+  "symbols": [
+    "SPY",
+    "QQQ",
+    "IWM"
+  ]
+}
