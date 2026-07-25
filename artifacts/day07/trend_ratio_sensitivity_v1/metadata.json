@@ -1,0 +1,60 @@
+{
+  "annualization_factor": 6552,
+  "artifact_version": "trend_ratio_sensitivity_v1",
+  "averaging_method": "arithmetic_simple_moving_average",
+  "baseline_cost_bps_per_turnover": 1.0,
+  "cost_break_even_method": {
+    "objective": "sum(log(1 + gross_return - turnover * cost_bps / 10000)) = 0",
+    "search_lower_bps": 0.0,
+    "search_upper_bps": 100.0,
+    "solver": "scipy.optimize.brentq"
+  },
+  "dataset_manifest_sha256": "30212cd6414e506fe397df6eae23455214b40c26099096d3f8fe9f3d2c29c3f2",
+  "development_sample_end": "2025-12-31",
+  "development_sample_start": "2020-01-02",
+  "holding_episode_definition": "maximal consecutive run of an identical non-zero position across the complete chronological sample; not reset at session or calendar-year boundaries",
+  "locked_period_accessed": false,
+  "long_window_grid": [
+    32,
+    64,
+    96
+  ],
+  "neighborhood_definition": "axis-adjacent configurations differing by exactly one declared grid step in one parameter while the other two parameters remain unchanged",
+  "neutral_band_grid": [
+    0.0,
+    0.0005,
+    0.001,
+    0.002
+  ],
+  "parameter_selected_using_locked_period": false,
+  "permitted_dataset_identifier": "spy_qqq_iwm_15min_2020-01-02_2025-12-31_sip_v3_development_canonical",
+  "position_timing": "position at bar t equals signal from bar t-1",
+  "price_column": "close",
+  "return_column": "close_to_close_simple_return",
+  "risk_free_rate_convention": "zero",
+  "short_window_grid": [
+    4,
+    8,
+    16
+  ],
+  "signal_timing": "signal uses information available through bar t",
+  "signal_validation_horizons": [
+    1,
+    4,
+    8,
+    16
+  ],
+  "symbol": "SPY",
+  "timeframe": "15-minute",
+  "transaction_cost_convention": "net_return = gross_return - turnover * cost_bps_per_turnover / 10000; direct reversal turnover equals 2",
+  "volatility_regime_definition": [
+    {
+      "benchmark_symbol": "SPY",
+      "normal_observations": 1206,
+      "stress_observations": 302,
+      "stress_quantile": 0.8,
+      "volatility_threshold": 0.204175893002666
+    }
+  ],
+  "whipsaw_definition": "non-zero episode lasting no more than four bars, followed by the next opposite non-zero episode starting within four positional bars"
+}
