@@ -1,0 +1,79 @@
+{
+  "annualization_factor": 6552,
+  "artifact_version": "ema_macd_sensitivity_v1",
+  "baseline_cost_bps_per_turnover": 1.0,
+  "composite_stability_score_used": false,
+  "configuration_count": 108,
+  "continuous_signal": "normalized_macd_histogram",
+  "cost_break_even_method": "compounded simple-return wealth with a bounded deterministic numerical root search",
+  "dataset_manifest_sha256": "30212cd6414e506fe397df6eae23455214b40c26099096d3f8fe9f3d2c29c3f2",
+  "day08_baseline_configuration": {
+    "fast_window": 12,
+    "neutral_band": 0.0005,
+    "signal_window": 9,
+    "slow_window": 26
+  },
+  "development_sample_end": "2025-12-31",
+  "development_sample_start": "2020-01-02",
+  "direct_reversal_turnover": 2,
+  "ema_alpha_formula": "2 / (window + 1)",
+  "ema_method": "recursive_adjust_false",
+  "ema_seed": "first_available_observation",
+  "ema_state_resets_at_session_boundary": false,
+  "fast_window_grid": [
+    8,
+    12,
+    16
+  ],
+  "figure_slice_definition": "rows are signal-line windows, columns are neutral bands, and each panel is a slow-window by fast-window matrix",
+  "full_bar_level_artifacts_written": false,
+  "holding_episode_definition": "consecutive run of identical non-zero positions; neutral runs are excluded",
+  "locked_period_accessed": false,
+  "neighborhood_definition": "one declared grid step along exactly one of fast window, slow window, signal window or neutral band; the other three values remain unchanged",
+  "neutral_band_grid": [
+    0.0,
+    0.00025,
+    0.0005,
+    0.001
+  ],
+  "overnight_positions_allowed": true,
+  "parameter_selected_using_locked_period": false,
+  "permitted_dataset_identifier": "spy_qqq_iwm_15min_2020-01-02_2025-12-31_sip_v3_development_canonical",
+  "position_timing": "signal shifted by one bar",
+  "price_column": "close",
+  "return_column": "close_to_close_simple_return",
+  "risk_free_rate_convention": "zero",
+  "signal_bucket_count": 5,
+  "signal_rule": "+1 above the neutral band; -1 below the negative neutral band; 0 otherwise",
+  "signal_timing": "signal calculated from information available at the close of bar t",
+  "signal_validation_horizons": [
+    1,
+    4,
+    8,
+    16
+  ],
+  "signal_window_grid": [
+    6,
+    9,
+    12
+  ],
+  "slow_window_grid": [
+    20,
+    26,
+    32
+  ],
+  "symbol": "SPY",
+  "timeframe": "15-minute",
+  "transaction_cost_convention": "cost bps per absolute target-position change",
+  "turnover_definition": "absolute change in one-bar-delayed target position",
+  "volatility_regime_definition": [
+    {
+      "benchmark_symbol": "SPY",
+      "normal_observations": 1206,
+      "stress_observations": 302,
+      "stress_quantile": 0.8,
+      "volatility_threshold": 0.204175893002666
+    }
+  ],
+  "whipsaw_definition": "non-zero position episode lasting no more than four 15-minute bars and followed within the next four bars by an opposite non-zero position"
+}
