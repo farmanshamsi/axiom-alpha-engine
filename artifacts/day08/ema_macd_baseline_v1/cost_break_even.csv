@@ -1,0 +1,2 @@
+symbol,status,break_even_cost_bps,eligible_observations,gross_cumulative_return,total_turnover,search_lower_bps,search_upper_bps,effective_upper_bps,objective_at_lower,objective_at_effective_upper
+SPY,non_positive_gross,,39064,-0.0423940885392,3318,0,100,,-0.0433189515527,
