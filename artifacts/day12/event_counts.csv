@@ -1,0 +1,11 @@
+strategy,event_type,count
+trend_ratio,MarketBarEvent,39064
+trend_ratio,SignalEvent,39064
+trend_ratio,TargetPositionOrderEvent,2717
+trend_ratio,FillEvent,2717
+trend_ratio,PortfolioSnapshot,39064
+ema_macd,MarketBarEvent,39064
+ema_macd,SignalEvent,39064
+ema_macd,TargetPositionOrderEvent,3303
+ema_macd,FillEvent,3303
+ema_macd,PortfolioSnapshot,39064

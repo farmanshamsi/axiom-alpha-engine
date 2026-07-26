@@ -1,0 +1,17 @@
+strategy,comparison,comparison_type,row_count,maximum_absolute_difference,mismatch_count,tolerance,passed
+trend_ratio,target_position,exact,39064,0,0,0,True
+trend_ratio,signal_available,exact,39064,0,0,0,True
+trend_ratio,executed_position,exact,39064,0,0,0,True
+trend_ratio,position_eligible,exact,39064,0,0,0,True
+trend_ratio,turnover,numeric,39064,0,0,1e-12,True
+trend_ratio,transaction_cost,numeric,39064,0,0,1e-12,True
+trend_ratio,gross_strategy_return,numeric,39064,0,0,1e-12,True
+trend_ratio,net_strategy_return,numeric,39064,0,0,1e-12,True
+ema_macd,target_position,exact,39064,0,0,0,True
+ema_macd,signal_available,exact,39064,0,0,0,True
+ema_macd,executed_position,exact,39064,0,0,0,True
+ema_macd,position_eligible,exact,39064,0,0,0,True
+ema_macd,turnover,numeric,39064,0,0,1e-12,True
+ema_macd,transaction_cost,numeric,39064,0,0,1e-12,True
+ema_macd,gross_strategy_return,numeric,39064,0,0,1e-12,True
+ema_macd,net_strategy_return,numeric,39064,0,0,1e-12,True

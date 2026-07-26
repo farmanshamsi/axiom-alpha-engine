@@ -1,0 +1,97 @@
+{
+  "accounting_model": "normalized-notional return ledger",
+  "analysis_name": "trend_family_event_replay",
+  "annualization_factor": 6552,
+  "artifact_sha256": {
+    "event_counts.csv": "2243e870fa4d53cdf8277a3f9c1313fc5f0635553fdc94a4a6f5ac09cd6313e7",
+    "performance.csv": "40c0c55aa348b449f54e71999d8385e079faa96ea5705a11401158b100bd4018",
+    "position_diagnostics.csv": "3678bb102a16976271d88d86e89ae912d67092385a25ce338246e00959c0f778",
+    "replay_summary.csv": "620b4028046eb9e8561afaf232150e41667610569f72acbaf9fba04edf0dbd51",
+    "report.md": "a7685f6701b3bf5e8faf1ded5a243bf773428645cc469e3551356092d0684b4c",
+    "vectorized_parity.csv": "dccdfb2be532d44a89102712b6431f4ca0f6ccc22a7a1c306bb0d57c28a3c1c5"
+  },
+  "artifact_version": "trend_family_event_replay_v1",
+  "canonical_row_count": 117192,
+  "day": 12,
+  "development_end": "2025-12-31",
+  "development_start": "2020-01-02",
+  "event_order": [
+    "MarketBarEvent",
+    "FillEvent when position changes",
+    "PortfolioSnapshot",
+    "SignalEvent",
+    "TargetPositionOrderEvent when requested"
+  ],
+  "event_sha256": {
+    "ema_macd": "4bcd8f02f5ce742b342fb6185189fbb69777ee58306daa3844f57260518a7efe",
+    "trend_ratio": "4f147e9ff5391f604532ac1106e36cb36f48b6c7a23135c5900970ad184ee92c"
+  },
+  "execution_delay_observations": 1,
+  "frequency": "15min",
+  "full_event_stream_exported": false,
+  "generation_timestamp": "2026-07-27T12:00:00Z",
+  "integrity_checks": {
+    "deterministic_replay": true,
+    "development_only": true,
+    "frequency_15min_only": true,
+    "input_mutated": false,
+    "locked_2026_period_accessed": false,
+    "net_wealth_reconciled": true,
+    "neutral_initial_state": true,
+    "one_observation_delay": true,
+    "public_replay_api_used": true,
+    "spy_only": true,
+    "vectorized_parity": true
+  },
+  "locked_2026_period_accessed": false,
+  "maximum_timestamp": "2025-12-31T20:45:00+00:00",
+  "minimum_timestamp": "2020-01-02T14:30:00+00:00",
+  "observation_sha256": {
+    "ema_macd": "25e47dc097a0a0db29fac75e5e40db3f20bf83234ef227dc113fa676d7bd8378",
+    "trend_ratio": "5824f532c867bc55aea8f4a1dc977c705a620b0eb7bcca634d2af8d032921205"
+  },
+  "parameter_selection_performed": false,
+  "profitability_acceptance_gate": false,
+  "replay_event_counts": {
+    "ema_macd": 123798,
+    "trend_ratio": 122626
+  },
+  "replay_observation_counts": {
+    "ema_macd": 39064,
+    "trend_ratio": 39064
+  },
+  "source_dataset_identifier": "spy_qqq_iwm_15min_2020-01-02_2025-12-31_sip_v3_development_canonical",
+  "source_dataset_path": "data/processed/bars/spy_qqq_iwm_15min_2020-01-02_2025-12-31_sip_v3_development_canonical.parquet",
+  "source_git_commit": "d0eab86569f97981be6c620f95157516200a6976",
+  "source_manifest_sha256": "30212cd6414e506fe397df6eae23455214b40c26099096d3f8fe9f3d2c29c3f2",
+  "spy_row_count": 39064,
+  "spy_session_count": 1508,
+  "strategies": [
+    "trend_ratio",
+    "ema_macd"
+  ],
+  "strategy_configuration_identifiers": {
+    "ema_macd": "ema_macd_day08_baseline_v1",
+    "trend_ratio": "trend_ratio_day06_baseline_v1"
+  },
+  "strategy_configurations": {
+    "ema_macd": {
+      "cost_bps_per_turnover": 1.0,
+      "fast_window": 12,
+      "neutral_band": 0.0005,
+      "price_column": "close",
+      "return_column": "close_to_close_simple_return",
+      "signal_window": 9,
+      "slow_window": 26
+    },
+    "trend_ratio": {
+      "cost_bps_per_turnover": 1.0,
+      "long_window": 32,
+      "neutral_band": 0.001,
+      "price_column": "close",
+      "return_column": "close_to_close_simple_return",
+      "short_window": 8
+    }
+  },
+  "symbol": "SPY"
+}
