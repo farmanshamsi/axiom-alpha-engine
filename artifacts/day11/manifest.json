@@ -1,0 +1,120 @@
+{
+  "aggregate_observation_counts": {
+    "ema_macd": 25970,
+    "trend_ratio": 25970
+  },
+  "aggregate_result_rows": 2,
+  "analysis_name": "trend_family_walk_forward",
+  "annualization_method": "252 multiplied by observed test observations divided by observed complete test sessions",
+  "artifact_sha256": {
+    "aggregate_results.csv": "3f060dd57412f8b0f0ea1370afd3d375ea388f628a9505656bd84840b3b42d3e",
+    "drawdown.png": "cf888768a4c7e60b6c991aa79436aee04d8d825f343d11fd9a2b188215203aad",
+    "fold_results.csv": "a06e91229b020871d0f67532ce849a1c181745c6c3cdc24e144751b60c93ad5e",
+    "net_return.png": "29405852355f26c08a0d6d9c385b2ac969eb84b008a2bcc60903159c3a248123",
+    "report.md": "4549b811fdde7a9e60d106bbdbf02a95dda63d0845e1f09e502538da4047e3df",
+    "sharpe.png": "5be612d6b2038d17703e13f38b572956c256ab2f3d8b33b2f908f919251ad56b"
+  },
+  "artifact_version": "trend_family_walk_forward_v1",
+  "canonical_row_count": 117192,
+  "day": 11,
+  "development_end": "2025-12-31",
+  "development_start": "2020-01-02",
+  "embargo_sessions": 0,
+  "execution_delay_observations": 1,
+  "execution_reset_policy": "Position and delayed execution reset to neutral at every test-fold boundary.",
+  "fold_definitions": [
+    {
+      "embargo_sessions": 0,
+      "fold_id": "wf_2022",
+      "purge_sessions": 0,
+      "test_end_inclusive": "2022-12-31",
+      "test_start": "2022-01-01",
+      "train_end_inclusive": "2021-12-31",
+      "train_start": "2020-01-02"
+    },
+    {
+      "embargo_sessions": 0,
+      "fold_id": "wf_2023",
+      "purge_sessions": 0,
+      "test_end_inclusive": "2023-12-31",
+      "test_start": "2023-01-01",
+      "train_end_inclusive": "2022-12-31",
+      "train_start": "2020-01-02"
+    },
+    {
+      "embargo_sessions": 0,
+      "fold_id": "wf_2024",
+      "purge_sessions": 0,
+      "test_end_inclusive": "2024-12-31",
+      "test_start": "2024-01-01",
+      "train_end_inclusive": "2023-12-31",
+      "train_start": "2020-01-02"
+    },
+    {
+      "embargo_sessions": 0,
+      "fold_id": "wf_2025",
+      "purge_sessions": 0,
+      "test_end_inclusive": "2025-12-31",
+      "test_start": "2025-01-01",
+      "train_end_inclusive": "2024-12-31",
+      "train_start": "2020-01-02"
+    }
+  ],
+  "fold_result_rows": 8,
+  "frequency": "15min",
+  "generation_timestamp": "2026-07-26T13:43:04Z",
+  "indicator_warmup_policy": "Training history may warm indicators; only test observations enter performance.",
+  "integrity_checks": {
+    "aggregate_counts_reconciled": true,
+    "delayed_execution_reset": true,
+    "deterministic_order": true,
+    "four_folds_per_strategy": true,
+    "frozen_configurations": true,
+    "locked_2026_period_accessed": false,
+    "neutral_fold_reset": true,
+    "non_overlapping_test_years": true,
+    "train_test_session_overlap": false,
+    "training_returns_in_metrics": false,
+    "whole_sessions": true
+  },
+  "locked_2026_period_accessed": false,
+  "maximum_timestamp": "2025-12-31T20:45:00+00:00",
+  "minimum_timestamp": "2020-01-02T14:30:00+00:00",
+  "parameter_selection_performed": false,
+  "profitability_acceptance_gate": false,
+  "purge_sessions": 0,
+  "source_dataset_identifier": "spy_qqq_iwm_15min_2020-01-02_2025-12-31_sip_v3_development_canonical",
+  "source_dataset_path": "data/processed/bars/spy_qqq_iwm_15min_2020-01-02_2025-12-31_sip_v3_development_canonical.parquet",
+  "source_git_commit": "c8671eb5b22e6f173f0ea2545e1e9ae4165cf0cb",
+  "source_manifest_sha256": "30212cd6414e506fe397df6eae23455214b40c26099096d3f8fe9f3d2c29c3f2",
+  "spy_row_count": 39064,
+  "spy_session_count": 1508,
+  "strategies": [
+    "trend_ratio",
+    "ema_macd"
+  ],
+  "strategy_configuration_identifiers": {
+    "ema_macd": "ema_macd_day08_baseline_v1",
+    "trend_ratio": "trend_ratio_day06_baseline_v1"
+  },
+  "strategy_configurations": {
+    "ema_macd": {
+      "cost_bps_per_turnover": 1.0,
+      "fast_window": 12,
+      "neutral_band": 0.0005,
+      "price_column": "close",
+      "return_column": "close_to_close_simple_return",
+      "signal_window": 9,
+      "slow_window": 26
+    },
+    "trend_ratio": {
+      "cost_bps_per_turnover": 1.0,
+      "long_window": 32,
+      "neutral_band": 0.001,
+      "price_column": "close",
+      "return_column": "close_to_close_simple_return",
+      "short_window": 8
+    }
+  },
+  "symbol": "SPY"
+}
