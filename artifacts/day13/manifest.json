@@ -1,0 +1,59 @@
+{
+  "artifact_filenames": [
+    "fold_summary.csv",
+    "event_counts.csv",
+    "position_diagnostics.csv",
+    "performance.csv",
+    "vectorized_parity.csv",
+    "aggregate_summary.csv",
+    "manifest.json",
+    "report.md"
+  ],
+  "artifact_sha256": {
+    "aggregate_summary.csv": "873d8f31d2b3553b81550267a3785cbe742a298e86db0e0b9e691aa618278941",
+    "event_counts.csv": "abb0a0ddec013dea66202500464333be749ba2a0081068b658ab4ff2dab773d3",
+    "fold_summary.csv": "0b7fd6ffdbf6cf4ccbb070f2990e39948105182ae642906b1ded2c7a29093a5d",
+    "performance.csv": "47b94fb0c8ee98ddcc5cd27a90b60b646e26df331c9cbf7076c5aee754bd0041",
+    "position_diagnostics.csv": "b722e46c7f63f4699151d8e8210226283c67ec5ca6e875e961278189a428ae3e",
+    "report.md": "7eabf1910339c28cb83ea8e5251d0e7f7bc38362f6b3cda26bbb8909fbd29e10",
+    "vectorized_parity.csv": "37e1e1fe4d926f390698e1f9e88e3113885b4826a1c69e63dc4014b0a7e77272"
+  },
+  "artifact_version": "trend_family_event_walk_forward_v1",
+  "configuration_ids": {
+    "ema_macd": "ema_macd_day08_baseline_v1",
+    "trend_ratio": "trend_ratio_day06_baseline_v1"
+  },
+  "development_only": true,
+  "evaluation_end_exclusive": "2025-12-31T21:00:00+00:00",
+  "evaluation_start": "2022-01-03T14:30:00+00:00",
+  "folds": [
+    "wf_2022",
+    "wf_2023",
+    "wf_2024",
+    "wf_2025"
+  ],
+  "frequency": "15min",
+  "locked_period_accessed": false,
+  "parity_comparison_count": 64,
+  "parity_failed_count": 0,
+  "parity_passed_count": 64,
+  "ranking_performed": false,
+  "replay_run_count": 8,
+  "report_id": "day13_event_walk_forward",
+  "row_counts": {
+    "aggregate_summary": 4,
+    "event_counts": 8,
+    "fold_summary": 8,
+    "performance": 16,
+    "position_diagnostics": 8,
+    "vectorized_parity": 64
+  },
+  "schema_version": 1,
+  "strategies": [
+    "trend_ratio",
+    "ema_macd"
+  ],
+  "symbol": "SPY",
+  "tuning_performed": false,
+  "winner_selection_performed": false
+}
