@@ -1,0 +1,9 @@
+strategy,fold_id,market_bar_events,signal_events,order_events,fill_events,portfolio_snapshots,total_events,observations
+trend_ratio,wf_2022,6514,6514,456,456,6514,20454,6514
+trend_ratio,wf_2023,6476,6476,462,462,6476,20352,6476
+trend_ratio,wf_2024,6516,6516,448,448,6516,20444,6516
+trend_ratio,wf_2025,6464,6464,452,452,6464,20296,6464
+ema_macd,wf_2022,6514,6514,805,805,6514,21152,6514
+ema_macd,wf_2023,6476,6476,540,540,6476,20508,6476
+ema_macd,wf_2024,6516,6516,415,415,6516,20378,6516
+ema_macd,wf_2025,6464,6464,521,521,6464,20434,6464
