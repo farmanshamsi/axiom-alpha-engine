@@ -30,18 +30,12 @@ instruments:
   - QQQ
   - IWM
   mean_reversion_candidates:
-  - - V
-    - MA
-  - - XOM
-    - CVX
-  - - KO
-    - PEP
-  - - HD
-    - LOW
-  - - JPM
-    - BAC
-  - - GS
-    - MS
+  - - SPY
+    - QQQ
+  - - SPY
+    - IWM
+  - - QQQ
+    - IWM
 data:
   primary_provider: alpaca
   external_crosscheck_provider: yfinance
@@ -83,7 +77,9 @@ strategy_design:
   trend_long_short_ablation: true
   mean_reversion_core_method: engle_granger_ecm_ou
   johansen_vecm_role: validation_or_extension
-  final_pair_selected_after_testing: true
+  pair_eligibility_framework: predeclared_pass_fail
+  primary_pair_preselected: false
+  pair_ranking_allowed: false
 execution:
   default_order_type: market
   default_time_in_force: day

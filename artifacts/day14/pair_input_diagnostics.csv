@@ -1,0 +1,4 @@
+pair_id,y_symbol,x_symbol,daily_observations,intraday_observations,daily_start_session,daily_end_session,intraday_start_timestamp,intraday_end_timestamp,forward_fill_used,locked_period_accessed
+SPY_QQQ,SPY,QQQ,1508,39064,2020-01-02,2025-12-31,2020-01-02T14:30:00+00:00,2025-12-31T20:45:00+00:00,False,False
+SPY_IWM,SPY,IWM,1508,39064,2020-01-02,2025-12-31,2020-01-02T14:30:00+00:00,2025-12-31T20:45:00+00:00,False,False
+QQQ_IWM,QQQ,IWM,1508,39064,2020-01-02,2025-12-31,2020-01-02T14:30:00+00:00,2025-12-31T20:45:00+00:00,False,False
