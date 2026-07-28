@@ -38,24 +38,15 @@ These may be discussed as future extensions only.
 - QQQ
 - IWM
 
-**Mean-reversion candidate pairs:**
-- V / MA
-- XOM / CVX
-- KO / PEP
-- HD / LOW
-- JPM / BAC
-- GS / MS
+**Mean-reversion feasibility candidate pairs:**
+- SPY / QQQ
+- SPY / IWM
+- QQQ / IWM
 
-The final pair will not be selected using correlation alone.
-
-Selection requires:
-1. Economic rationale
-2. Unit-root checks
-3. Engle-Granger residual testing
-4. Error-correction evidence
-5. OU mean-reversion evaluation
-6. Rolling stability
-7. Cost-adjusted tradeability
+The candidate universe is evaluated through a predeclared pass/fail framework.
+Correlation, profitability, trading costs and return ranking cannot determine
+Day 14 eligibility. The fixed pair orientations and complete statistical and
+OU gate definitions are recorded in D-014.
 
 ---
 
@@ -223,3 +214,63 @@ Microstructure variables will initially act as filters and execution diagnostics
 ### Data governance
 
 The final January–June 2026 test period remains locked. Day 03 pipeline testing used 15 December 2025, which belongs to the development period.
+
+---
+
+## D-014 — Cointegration and OU Feasibility Contract
+
+Day 14 uses only the canonical 2020-01-02 through 2025-12-31
+SPY, QQQ and IWM development dataset. The locked 2026 period remains
+inaccessible.
+
+**Candidate pairs and fixed orientation:**
+- SPY / QQQ: SPY is Y; QQQ is X
+- SPY / IWM: SPY is Y; IWM is X
+- QQQ / IWM: QQQ is Y; IWM is X
+
+The reverse orientation will not be tested for eligibility.
+
+**Data contract:**
+- Engle-Granger estimation uses log daily session-close prices derived from
+  canonical 15-minute bars.
+- Daily legs are aligned by exact session-date intersection.
+- Intraday legs are aligned by exact timestamp and session intersection.
+- Forward filling, interpolation and asynchronous matching are prohibited.
+
+**Integration diagnostics:**
+- ADF level test: intercept and deterministic trend, AIC lag selection.
+- ADF first-difference test: intercept, AIC lag selection.
+- A series is plausibly I(1) only when the 5% level test does not reject and
+  the 5% first-difference test rejects.
+
+**Cointegration inference:**
+- Long-run regression: log(Y) = alpha + beta log(X) + residual.
+- The regression contains an intercept and no deterministic trend.
+- Statsmodels Engle-Granger residual-based inference is the eligibility test.
+- A no-constant ADF test on fitted residuals is retained as a diagnostic only.
+- Holm family-wise correction at 5% is applied across the three candidate
+  Engle-Granger tests.
+
+**Hedge-ratio and stability gates:**
+- Alpha and beta must be finite.
+- Beta must be positive and lie between 0.10 and 10.00.
+- All four expanding-fold training betas must retain the full-sample sign.
+- Maximum fold-beta deviation from the full-sample beta must not exceed 25%.
+- At least three of four fixed-training-coefficient test residuals must reject
+  a unit root at 5%.
+- Fold test-residual ADF diagnostics include an intercept and use AIC lag
+  selection because training coefficients do not guarantee zero-mean
+  out-of-sample residuals.
+
+**OU gate:**
+- OU estimation is attempted only after cointegration and stability pass.
+- The full-sample hedge ratio is applied to synchronized 15-minute log prices.
+- AR(1) estimation uses within-session consecutive observations only.
+- The discrete coefficient must satisfy 0 < phi < 1.
+- Kappa, theta and sigma must be finite, with kappa and sigma positive.
+- Half-life must be at least 1 and at most 130 fifteen-minute bars.
+
+Pair eligibility requires every predeclared statistical and OU gate to pass.
+Profitability, costs, thresholds, positions, ranking and winner selection are
+not Day 14 eligibility criteria. A valid outcome is that no pair qualifies.
+ECM estimation and all trading logic are deferred to later work.

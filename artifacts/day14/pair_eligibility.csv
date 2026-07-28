@@ -1,0 +1,4 @@
+pair_id,y_symbol,x_symbol,y_plausibly_i1,x_plausibly_i1,holm_cointegration_pass,beta_pass,fold_beta_stability_pass,stationary_fold_count,fold_stationarity_pass,ou_attempted,ou_pass,eligible,rejection_reasons
+SPY_QQQ,SPY,QQQ,True,True,False,True,True,0,False,False,False,False,holm_cointegration_failed|fold_stationarity_failed|ou_not_attempted
+SPY_IWM,SPY,IWM,True,True,False,True,False,0,False,False,False,False,holm_cointegration_failed|fold_beta_stability_failed|fold_stationarity_failed|ou_not_attempted
+QQQ_IWM,QQQ,IWM,True,True,False,True,False,1,False,False,False,False,holm_cointegration_failed|fold_beta_stability_failed|fold_stationarity_failed|ou_not_attempted

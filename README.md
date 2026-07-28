@@ -218,16 +218,17 @@ Y_t
 
 The residual will be evaluated using an Engle-Granger framework with appropriate residual-based inference.
 
-A candidate pair must demonstrate:
+Initial statistical eligibility requires:
 
 - economically defensible linkage;
-- both individual price series behaving as \(I(1)\);
-- a stationary equilibrium residual;
-- a stable and interpretable hedge ratio;
+- both individual log-price series behaving plausibly as \(I(1)\);
+- a stationary equilibrium residual under predeclared inference;
+- a stable and interpretable static hedge ratio;
 - acceptable structural stability;
-- sufficient spread crossings;
-- realistic borrow and transaction costs;
-- robust out-of-sample behaviour.
+- a valid OU representation when supported by the residual dynamics.
+
+Spread crossings, transaction costs, trading thresholds and out-of-sample
+performance are evaluated only in later strategy-development stages.
 
 #### Error-Correction Model
 
@@ -296,15 +297,18 @@ Z_t
 
 Entry and exit thresholds will be selected through walk-forward analysis after transaction costs rather than through one globally optimized threshold.
 
-The project will compare:
+The initial feasibility study uses:
 
-- both regression directions;
-- static and rolling hedge ratios;
-- alternative deterministic terms;
-- Engle-Granger and Johansen/VECM evidence;
-- theoretical and empirical half-life;
-- theoretical and empirical crossing frequency;
-- raw and cost-adjusted performance.
+- one predeclared regression orientation for each candidate pair;
+- a static hedge ratio;
+- fixed deterministic terms;
+- Engle-Granger residual-based inference;
+- predeclared stability and OU diagnostics;
+- no profitability, ranking or trading gate.
+
+Reverse orientations, rolling hedge ratios, alternative deterministic terms,
+Johansen/VECM evidence, crossing behaviour and cost-adjusted performance are
+reserved for later robustness or strategy-development work.
 
 ---
 

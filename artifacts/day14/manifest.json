@@ -1,0 +1,55 @@
+{
+  "artifact_filenames": [
+    "pair_input_diagnostics.csv",
+    "series_integration_diagnostics.csv",
+    "cointegration_diagnostics.csv",
+    "fold_stability_diagnostics.csv",
+    "ou_diagnostics.csv",
+    "pair_eligibility.csv",
+    "manifest.json",
+    "report.md"
+  ],
+  "artifact_sha256": {
+    "cointegration_diagnostics.csv": "574aa1325a053700211794c7879009edb03473685fc4d8cc192cc77ff59954c0",
+    "fold_stability_diagnostics.csv": "8ecbee22e9ae0d5948fac54d97fad79b877140d295f73d199debad6d0a4ab8db",
+    "ou_diagnostics.csv": "f68aa84f275025ec77295885d1474a1c721b13a092cfd06093925f6bd1c71be8",
+    "pair_eligibility.csv": "62ced9a288e85b7bd9bafb5fd275bf615f0810f21068cda5bdebde0e12ecb7da",
+    "pair_input_diagnostics.csv": "759eb9fc8cf747e5f71ab7f0bf2bccf30de92457fb2d12da59fcd393275645b2",
+    "report.md": "0f80d34aed9fc7f5c0171648049715c27b614fc528f4af7958440c0a4e866284",
+    "series_integration_diagnostics.csv": "013ed3a1b0c858f1d219e37038440a4d13124f9574ef4c1689aa2091c39caba3"
+  },
+  "artifact_version": "cointegration_ou_feasibility_v1",
+  "candidate_pair_count": 3,
+  "candidate_pairs": [
+    {
+      "x_symbol": "QQQ",
+      "y_symbol": "SPY"
+    },
+    {
+      "x_symbol": "IWM",
+      "y_symbol": "SPY"
+    },
+    {
+      "x_symbol": "IWM",
+      "y_symbol": "QQQ"
+    }
+  ],
+  "development_only": true,
+  "eligible_pair_count": 0,
+  "forward_fill_used": false,
+  "frequency": "15min",
+  "locked_period_accessed": false,
+  "ranking_performed": false,
+  "report_id": "day14_cointegration_feasibility",
+  "row_counts": {
+    "cointegration_diagnostics": 3,
+    "fold_stability_diagnostics": 12,
+    "ou_diagnostics": 3,
+    "pair_eligibility": 3,
+    "pair_input_diagnostics": 3,
+    "series_integration_diagnostics": 6
+  },
+  "schema_version": 1,
+  "tuning_performed": false,
+  "winner_selection_performed": false
+}
