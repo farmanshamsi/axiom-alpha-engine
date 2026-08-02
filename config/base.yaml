@@ -11,6 +11,7 @@ safety:
 broker:
   provider: alpaca
   paper: true
+  paper_base_url: https://paper-api.alpaca.markets
   credentials_file: .env
   stock_data_feed: iex
   api_key_env: ALPACA_API_KEY
@@ -81,6 +82,7 @@ strategy_design:
   primary_pair_preselected: false
   pair_ranking_allowed: false
 execution:
+  order_submission_enabled: false
   default_order_type: market
   default_time_in_force: day
   fractional_orders_allowed: true

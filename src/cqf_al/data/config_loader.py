@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import os
+from dataclasses import dataclass, field as dataclass_field
 from pathlib import Path
 from typing import Any
 
@@ -16,10 +17,10 @@ class ProjectConfigError(RuntimeError):
 
 @dataclass(frozen=True)
 class AlpacaCredentials:
-    """Alpaca API credentials loaded from the local .env file."""
+    """Alpaca credentials whose values are suppressed from representations."""
 
-    api_key: str
-    secret_key: str
+    api_key: str = dataclass_field(repr=False)
+    secret_key: str = dataclass_field(repr=False)
 
 
 def find_project_root(start: Path | None = None) -> Path:
@@ -121,28 +122,43 @@ def load_project_config(
 def load_alpaca_credentials(
     config: dict[str, Any] | None = None,
 ) -> AlpacaCredentials:
-    """Load Alpaca credentials without exposing them in logs."""
+    """Load credentials from process environment or the local .env file."""
 
     project_config = config or load_project_config()
     root = find_project_root()
 
     broker = project_config["broker"]
-    env_path = root / broker["credentials_file"]
-
-    if not env_path.exists():
-        raise ProjectConfigError(f"Credentials file not found: {env_path}")
-
-    env = Config(RepositoryEnv(str(env_path)))
-
     api_key_name = broker["api_key_env"]
     secret_key_name = broker["secret_key_env"]
+    process_api_key = os.environ.get(api_key_name)
+    process_secret_key = os.environ.get(secret_key_name)
+
+    if process_api_key is not None or process_secret_key is not None:
+        if (
+            process_api_key is None
+            or process_secret_key is None
+            or not process_api_key.strip()
+            or not process_secret_key.strip()
+        ):
+            raise ProjectConfigError(
+                "Required Alpaca process-environment credentials are incomplete."
+            )
+        return AlpacaCredentials(
+            api_key=process_api_key.strip(),
+            secret_key=process_secret_key.strip(),
+        )
+
+    env_path = root / broker["credentials_file"]
+    if not env_path.exists():
+        raise ProjectConfigError("Required local credentials file is missing.")
+    env = Config(RepositoryEnv(str(env_path)))
 
     try:
         api_key = env(api_key_name)
         secret_key = env(secret_key_name)
     except Exception as exc:
         raise ProjectConfigError(
-            "Required Alpaca credentials are missing from .env."
+            "Required Alpaca credentials are missing from the local environment."
         ) from exc
 
     if not api_key.strip() or not secret_key.strip():
