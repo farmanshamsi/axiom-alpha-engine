@@ -769,9 +769,9 @@ def _validate_output_directory(
         raise TypeError("overwrite must be a boolean.")
 
     directory = Path(output_directory)
-    if directory.name in {"", ".", ".."}:
+    if directory.name != "day15":
         raise ValueError(
-            "output_directory must name a specific artifact directory."
+            "output_directory must have the final name 'day15'."
         )
     if directory.is_symlink():
         raise ValueError("output_directory cannot be a symbolic link.")

@@ -128,7 +128,7 @@ def test_overwrite_protection_and_repeated_bytes_are_deterministic(
     tmp_path: Path,
     day15_report: reporting.Day15StrategyDiversificationReport,
 ) -> None:
-    output = tmp_path / "day15"
+    output = tmp_path / "artifacts" / "day15"
     reporting.write_day15_strategy_diversification_artifacts(
         day15_report,
         output,
@@ -151,6 +151,36 @@ def test_overwrite_protection_and_repeated_bytes_are_deterministic(
     assert {item.name for item in output.iterdir()} == set(
         reporting.APPROVED_DAY15_ARTIFACT_NAMES
     )
+
+
+@pytest.mark.parametrize(
+    "unsafe_name",
+    (
+        "artifacts",
+        "repository-root",
+        "home",
+        "Day15",
+        "day15-artifacts",
+    ),
+)
+def test_overwrite_rejects_non_day15_directory_names(
+    tmp_path: Path,
+    day15_report: reporting.Day15StrategyDiversificationReport,
+    unsafe_name: str,
+) -> None:
+    output = tmp_path / unsafe_name
+    output.mkdir()
+    sentinel = output / "sentinel.txt"
+    sentinel.write_text("retain", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="final name 'day15'"):
+        reporting.write_day15_strategy_diversification_artifacts(
+            day15_report,
+            output,
+            overwrite=True,
+        )
+
+    assert sentinel.read_text(encoding="utf-8") == "retain"
 
 
 def test_atomic_replacement_rolls_back_and_cleans_staging_on_failure(
