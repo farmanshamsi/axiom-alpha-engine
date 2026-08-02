@@ -3,8 +3,8 @@
 - Last updated: 2026-08-02
 - Completed research day: Day 18
 - Current branch: `day18-alpaca-paper-boundary`
-- Day 18 freeze commit: pending final repository freeze
-- Remote status: Day 18 branch not yet pushed
+- Day 18 freeze commit: `a01feddea1e135e0ddd2ad8a4682a7ae637dd850`
+- Remote status: Day 18 branch pushed to GitHub
 - Main-branch status: `main` remains at the Day 15 merge, `56903d7`
 - Canonical development data: 2020-01-02 through 2025-12-31
 - Locked final-test data: 2026-01-02 through 2026-06-30, not accessed
@@ -147,7 +147,7 @@ and unrestricted machine-learning work are excluded from the Axiom core.
 | 15 | Complete | Built a six-sleeve daily return panel, correlation and covariance diagnostics, PCA concentration, effective rank, diversification ratio, and ensemble-feasibility gates. | Across 1,508 aligned sessions, max absolute correlation was 0.818743, PC1 share 0.424795, effective rank 3.758647, and diversification ratio exceeded one. Combining sleeves was mechanically feasible, not necessarily profitable. |
 | 16 | Complete, frozen, pushed on Day 17 branch | Evaluated equal weight, inverse volatility, and constrained minimum variance across the six frozen sleeves using train-only weights, four chronological folds, costs, concentration, drawdown, historical VaR, and ES. | Aggregate net returns were -29.63%, -29.48%, and -28.61%, respectively. The work is valid economic evidence, but no rule was ranked or selected. Further allocation expansion is deprioritized. |
 | 17 | Complete, frozen, pushed | Implemented a non-trivial OU/VWAP residual reversion strategy with a variance-ratio gate, three predeclared calibrations, chronological folds, one-bar delay, overnight-flat logic, four cost levels, HAC inference, moving-block bootstrap, IC, PSR, and DSR. Produced an eight-file deterministic bundle. | Fast and base equal-weight cases were negative at one basis point. Slow was +6.03% at one basis point and +3.02% at five basis points, with annualized Sharpe 0.639 and max drawdown -1.95% at one basis point. HAC t-stat was 1.421, the mean CI crossed zero, and DSR was 0.626; promising, but statistically inconclusive and not promoted. |
-| 18 | Complete and frozen; push pending | Implemented a broker-neutral read-only Alpaca paper adapter with exact endpoint enforcement, environment-backed redacted credentials, account/clock/SPY-QQQ-IWM preflight, capability mapping, fail-closed error taxonomy, deterministic five-file artifacts, and 62 synthetic safety tests. The approved live preflight passed on 2026-08-02. | Account status was active and unblocked; SPY, QQQ, and IWM were active, tradable, shortable, easy to borrow, and fractionable. All gates passed, no credential or financial identifier was persisted, locked data remained untouched, and zero orders were submitted. This proves connectivity and safety boundaries, not execution readiness or profitability. |
+| 18 | Complete, frozen, pushed | Implemented a broker-neutral read-only Alpaca paper adapter with exact endpoint enforcement, environment-backed redacted credentials, account/clock/SPY-QQQ-IWM preflight, capability mapping, fail-closed error taxonomy, deterministic five-file artifacts, and 62 synthetic safety tests. The approved live preflight passed on 2026-08-02. | Account status was active and unblocked; SPY, QQQ, and IWM were active, tradable, shortable, easy to borrow, and fractionable. All gates passed, no credential or financial identifier was persisted, locked data remained untouched, and zero orders were submitted. This proves connectivity and safety boundaries, not execution readiness or profitability. |
 
 ## 6. Current evidence dashboard
 
