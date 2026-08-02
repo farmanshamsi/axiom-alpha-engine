@@ -1,0 +1,7 @@
+sleeve_id,strategy,symbol,frequency,configuration_id,sessions,observations,start_session,end_session,variance,non_degenerate,finite_returns,exact_calendar_aligned
+trend_ratio_spy,trend_ratio,SPY,15min,trend_ratio_day06_baseline_v1,1508,39064,2020-01-02 00:00:00+00:00,2025-12-31 00:00:00+00:00,0.00011735152317330579,True,True,True
+trend_ratio_qqq,trend_ratio,QQQ,15min,trend_ratio_day06_baseline_v1,1508,39064,2020-01-02 00:00:00+00:00,2025-12-31 00:00:00+00:00,0.00018565952757581601,True,True,True
+trend_ratio_iwm,trend_ratio,IWM,15min,trend_ratio_day06_baseline_v1,1508,39064,2020-01-02 00:00:00+00:00,2025-12-31 00:00:00+00:00,0.00023650055687172248,True,True,True
+ema_macd_spy,ema_macd,SPY,15min,ema_macd_day08_baseline_v1,1508,39064,2020-01-02 00:00:00+00:00,2025-12-31 00:00:00+00:00,0.00011481044663504928,True,True,True
+ema_macd_qqq,ema_macd,QQQ,15min,ema_macd_day08_baseline_v1,1508,39064,2020-01-02 00:00:00+00:00,2025-12-31 00:00:00+00:00,0.00015245096576786045,True,True,True
+ema_macd_iwm,ema_macd,IWM,15min,ema_macd_day08_baseline_v1,1508,39064,2020-01-02 00:00:00+00:00,2025-12-31 00:00:00+00:00,0.00017290685511244067,True,True,True
