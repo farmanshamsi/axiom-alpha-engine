@@ -1,0 +1,16 @@
+sleeve_a,sleeve_b,observations,correlation
+trend_ratio_spy,trend_ratio_qqq,1508,0.80082153089901587
+trend_ratio_spy,trend_ratio_iwm,1508,0.66524760693377283
+trend_ratio_spy,ema_macd_spy,1508,0.074275991904889607
+trend_ratio_spy,ema_macd_qqq,1508,0.065606719664464228
+trend_ratio_spy,ema_macd_iwm,1508,0.025412676327747259
+trend_ratio_qqq,trend_ratio_iwm,1508,0.50438010535352551
+trend_ratio_qqq,ema_macd_spy,1508,0.097205958557369007
+trend_ratio_qqq,ema_macd_qqq,1508,0.12865825448989818
+trend_ratio_qqq,ema_macd_iwm,1508,0.027862281761636909
+trend_ratio_iwm,ema_macd_spy,1508,0.021378259827383214
+trend_ratio_iwm,ema_macd_qqq,1508,0.025832804029134463
+trend_ratio_iwm,ema_macd_iwm,1508,0.048785456005990463
+ema_macd_spy,ema_macd_qqq,1508,0.81874311487135087
+ema_macd_spy,ema_macd_iwm,1508,0.70450695806828856
+ema_macd_qqq,ema_macd_iwm,1508,0.58838115201569574

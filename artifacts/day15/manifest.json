@@ -1,0 +1,154 @@
+{
+  "alignment_method": "exact common session dates across all six sleeves",
+  "artifact_filenames": [
+    "sleeve_input_diagnostics.csv",
+    "full_sample_pairwise_correlations.csv",
+    "fold_pairwise_correlations.csv",
+    "fold_covariance_diagnostics.csv",
+    "ensemble_feasibility.csv",
+    "report.md",
+    "manifest.json"
+  ],
+  "artifact_sha256": {
+    "ensemble_feasibility.csv": "fb8ceced5af959ec4f90591f54e7205de6b92fd5216c8aade772c939ca469f22",
+    "fold_covariance_diagnostics.csv": "b97e2c30fd8ef9a4a23015f8bc8dd4f698fd46b3bae401451de0be15b18d7ba3",
+    "fold_pairwise_correlations.csv": "95457d90074dd08565d4bb839e8aec6f186278281054961bc1828a6e71f4f827",
+    "full_sample_pairwise_correlations.csv": "e5748bd431e2c3d5dc01d6fbc18a318a0ca09357176cae8f3660d127a33993f7",
+    "report.md": "8b8030802c187bb4021bd94d0875644cecf40c15e9f5a4f2eb56b7a6af0b9038",
+    "sleeve_input_diagnostics.csv": "91753e08c9c0e0a83f0a138952909e782d9682009afde5200f3d954d8bb326df"
+  },
+  "artifact_version": "day15_strategy_diversification_v1",
+  "backward_fill_used": false,
+  "covariance_ddof": 1,
+  "covariance_estimator": "ordinary sample covariance",
+  "covariance_repair_used": false,
+  "covariance_shrinkage_used": false,
+  "dataset_id": "spy_qqq_iwm_15min_2020-01-02_2025-12-31_sip_v3_development_canonical",
+  "development_end": "2025-12-31",
+  "development_only": true,
+  "development_start": "2020-01-02",
+  "ensemble_feasible": true,
+  "execution_delay_convention": "position[t] equals signal[t-1] within each sleeve",
+  "feasibility_thresholds": {
+    "maximum_absolute_correlation": 0.95,
+    "maximum_median_pc1_share": 0.8,
+    "minimum_median_effective_rank": 2.0,
+    "minimum_median_test_diversification_ratio": 1.0,
+    "minimum_test_sessions": 100,
+    "minimum_training_sessions": 252
+  },
+  "fold_definitions": [
+    {
+      "embargo_sessions": 0,
+      "fold_id": "wf_2022",
+      "purge_sessions": 0,
+      "test_end_exclusive": "2023-01-01",
+      "test_start": "2022-01-01",
+      "train_end_exclusive": "2022-01-01",
+      "train_start": "2020-01-02"
+    },
+    {
+      "embargo_sessions": 0,
+      "fold_id": "wf_2023",
+      "purge_sessions": 0,
+      "test_end_exclusive": "2024-01-01",
+      "test_start": "2023-01-01",
+      "train_end_exclusive": "2023-01-01",
+      "train_start": "2020-01-02"
+    },
+    {
+      "embargo_sessions": 0,
+      "fold_id": "wf_2024",
+      "purge_sessions": 0,
+      "test_end_exclusive": "2025-01-01",
+      "test_start": "2024-01-01",
+      "train_end_exclusive": "2024-01-01",
+      "train_start": "2020-01-02"
+    },
+    {
+      "embargo_sessions": 0,
+      "fold_id": "wf_2025",
+      "purge_sessions": 0,
+      "test_end_exclusive": "2026-01-01",
+      "test_start": "2025-01-01",
+      "train_end_exclusive": "2025-01-01",
+      "train_start": "2020-01-02"
+    }
+  ],
+  "forward_fill_used": false,
+  "frequency": "15min",
+  "interpolation_used": false,
+  "intraday_to_session_return_method": "product(1 + intraday_net_return) - 1",
+  "leverage_used": false,
+  "locked_period_accessed": false,
+  "locked_period_end": "2026-06-30",
+  "locked_period_start": "2026-01-02",
+  "numerical_tolerances": {
+    "psd_tolerance": 1e-12,
+    "variance_tolerance": 1e-16
+  },
+  "optimisation_performed": false,
+  "profitability_claimed": false,
+  "ranking_performed": false,
+  "report_id": "day15_strategy_diversification",
+  "row_counts": {
+    "ensemble_feasibility": 1,
+    "fold_covariance_diagnostics": 8,
+    "fold_pairwise_correlations": 120,
+    "full_sample_pairwise_correlations": 15,
+    "sleeve_input_diagnostics": 6
+  },
+  "schema_version": 1,
+  "sleeve_count": 6,
+  "sleeve_removal_performed": false,
+  "sleeve_universe": [
+    {
+      "configuration_id": "trend_ratio_day06_baseline_v1",
+      "frequency": "15min",
+      "sleeve_id": "trend_ratio_spy",
+      "strategy": "trend_ratio",
+      "symbol": "SPY"
+    },
+    {
+      "configuration_id": "trend_ratio_day06_baseline_v1",
+      "frequency": "15min",
+      "sleeve_id": "trend_ratio_qqq",
+      "strategy": "trend_ratio",
+      "symbol": "QQQ"
+    },
+    {
+      "configuration_id": "trend_ratio_day06_baseline_v1",
+      "frequency": "15min",
+      "sleeve_id": "trend_ratio_iwm",
+      "strategy": "trend_ratio",
+      "symbol": "IWM"
+    },
+    {
+      "configuration_id": "ema_macd_day08_baseline_v1",
+      "frequency": "15min",
+      "sleeve_id": "ema_macd_spy",
+      "strategy": "ema_macd",
+      "symbol": "SPY"
+    },
+    {
+      "configuration_id": "ema_macd_day08_baseline_v1",
+      "frequency": "15min",
+      "sleeve_id": "ema_macd_qqq",
+      "strategy": "ema_macd",
+      "symbol": "QQQ"
+    },
+    {
+      "configuration_id": "ema_macd_day08_baseline_v1",
+      "frequency": "15min",
+      "sleeve_id": "ema_macd_iwm",
+      "strategy": "ema_macd",
+      "symbol": "IWM"
+    }
+  ],
+  "strategy_configuration_ids": {
+    "ema_macd": "ema_macd_day08_baseline_v1",
+    "trend_ratio": "trend_ratio_day06_baseline_v1"
+  },
+  "transaction_cost_convention": "existing frozen per-turnover costs included in net_strategy_return",
+  "winner_selection_performed": false
+}
